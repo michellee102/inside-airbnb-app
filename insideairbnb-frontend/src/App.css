@@ -1,0 +1,11 @@
+.mapboxgl-canvas-container {
+  height: 100vh;
+}
+
+.container {
+  position: "absolute";
+  top: 0;
+  bottom: 0;
+  width: 1000px;
+  height: "100vh";
+}
