@@ -9,3 +9,11 @@
   width: 1000px;
   height: "100vh";
 }
+
+.marker {
+  background-color: #ff0000;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
