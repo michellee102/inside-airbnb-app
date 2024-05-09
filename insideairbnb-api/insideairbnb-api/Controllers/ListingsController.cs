@@ -18,7 +18,7 @@ namespace insideairbnb_api.Controllers
         [HttpGet]
         public ActionResult<List<Listing>> GetAllListings()
         {
-            List<Listing> listings = _dataContext.Detailed_Listings_Parijs.Take(100).ToList();
+            List<Listing> listings = _dataContext.Detailed_Listings_Parijs.ToList();
             return Ok(listings);
         }
 

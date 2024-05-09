@@ -14,7 +14,7 @@ namespace insideairbnb_api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /* omitted stuff for PK and index */
+
             modelBuilder.Entity<Listing>().Property(t => t.Id).HasColumnType("long");
 
             base.OnModelCreating(modelBuilder);
