@@ -3,9 +3,9 @@ import '../App.css';
 function Navbar() {
     return (
 
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Inside Airbnb Paris</a>
+        <nav className="navbar navbar-light bg-light">
+            <div className="container-fluid">
+                <a className="navbar-brand" href="#">Inside Airbnb Paris</a>
             </div>
         </nav>
 
