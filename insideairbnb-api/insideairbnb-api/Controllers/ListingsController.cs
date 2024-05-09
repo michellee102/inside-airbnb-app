@@ -17,9 +17,9 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Listing>> GetAllListings()
+        public ActionResult<List<GeoLocationListing>> GetAllListings()
         {
-            List<Listing> listings = _dataContext.Detailed_Listings_Parijs.ToList();
+            List<GeoLocationListing> listings = _dataContext.Detailed_Listings_Parijs.ToList();
 
             // Loop door elke Listing en pas de latitude aan
             foreach (var listing in listings)

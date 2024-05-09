@@ -15,11 +15,11 @@ namespace insideairbnb_api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Listing>().Property(t => t.Id).HasColumnType("long");
+            modelBuilder.Entity<GeoLocationListing>().Property(t => t.Id).HasColumnType("long");
 
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Listing> Detailed_Listings_Parijs { get; set; }
+        public DbSet<GeoLocationListing> Detailed_Listings_Parijs { get; set; }
     }
 }
