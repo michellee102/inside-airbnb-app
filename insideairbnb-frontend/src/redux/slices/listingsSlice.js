@@ -10,6 +10,11 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
     return response.json();
 });
 
+export const fetchListingDetails = createAsyncThunk('listings/details', async (listingId) => {
+    const response = await fetch(`https://localhost:7049/Listings/${listingId}/details`);
+    return response.json();
+});
+
 
 export const listingsSlice = createSlice({
     name: 'listings',
@@ -17,6 +22,7 @@ export const listingsSlice = createSlice({
         allListingsGeoLocation: [],
         filteredListings: [],
         selectedNeighbourhood: null,
+        listingDetails: null,
         status: 'idle',
         error: null
     },
@@ -29,7 +35,7 @@ export const listingsSlice = createSlice({
             if (action.payload === null) {
                 state.filteredListings = [];
             }
-        },
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -52,6 +58,17 @@ export const listingsSlice = createSlice({
                 state.filteredListings = action.payload;
             })
             .addCase(fetchListingsByNeighbourhood.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchListingDetails.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchListingDetails.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.listingDetails = action.payload;
+            })
+            .addCase(fetchListingDetails.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

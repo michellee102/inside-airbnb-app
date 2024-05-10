@@ -5,7 +5,7 @@ namespace insideairbnb_api.Models;
 
 public partial class GeoLocationInfo
 {
-    public long Id { get; set; }
+    public string Id { get; set; }
 
     public double? Latitude { get; set; }
 

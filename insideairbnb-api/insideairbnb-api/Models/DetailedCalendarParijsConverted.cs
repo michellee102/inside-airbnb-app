@@ -5,7 +5,7 @@ namespace insideairbnb_api.Models;
 
 public partial class DetailedCalendarParijsConverted
 {
-    public long ListingId { get; set; }
+    public string ListingId { get; set; }
 
     public DateOnly Date { get; set; }
 

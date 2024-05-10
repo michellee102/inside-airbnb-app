@@ -133,6 +133,44 @@ namespace insideairbnb_api.Controllers
             return Ok(listings);
         }
 
+        [HttpGet("{id}/details")]
+        public ActionResult<DetailedListingsParij> GetListingDetails(string id)
+        {
+            DetailedListingsParij listingInfo = _dataContext.DetailedListingsParijs
+                .Where(listing => listing.Id == id)
+                 .FirstOrDefault();
+            if (listingInfo != null)
+            {
+                // Loop door elke Listing en pas de latitude aan
+              
+                    // Converteer de latitude naar een string
+                    string latitudeString = listingInfo.Latitude.ToString();
+                    // Controleer of de lengte van de string groter is dan 2
+                    if (latitudeString.Length > 2)
+                    {
+                        // Voeg een decimaalpunt in na de eerste 2 cijfers
+                        string formattedLatitude = latitudeString.Insert(2, ".");
+                    // Converteer de geformatteerde string terug naar een double
+                    listingInfo.Latitude = double.Parse(formattedLatitude, CultureInfo.InvariantCulture);
+                    }
 
+                    // Converteer de longitude naar een string
+                    string longitudeString = listingInfo.Longitude.ToString();
+                    // Controleer of de lengte van de string groter is dan 1
+                    if (longitudeString.Length > 1)
+                    {
+                        // Voeg een decimaalpunt in na het eerste cijfer
+                        string formattedLongitude = longitudeString.Insert(1, ".");
+                    // Converteer de geformatteerde string terug naar een double
+                    listingInfo.Longitude = double.Parse(formattedLongitude, CultureInfo.InvariantCulture);
+      
+                }
+                return Ok(listingInfo);
+            }
+            else
+            {
+                return NotFound(); // Returneer een 404 Not Found als er geen overeenkomende objecten zijn
+            }
+        }
     }
 }

@@ -2,7 +2,8 @@
 {
     public class FilteredListing
     {
-        public long Id { get; set; }
+
+        public string Id { get; set; }
 
         public double? Latitude { get; set; }
 
