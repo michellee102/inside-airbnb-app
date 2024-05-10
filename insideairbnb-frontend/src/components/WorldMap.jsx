@@ -1,50 +1,57 @@
 import { Map, Source, Layer } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useState } from 'react';
-import fetchListings from '../services/ListingService';
+import neighbourhoodsGeojson from '../data/neighbourhoods.geojson';
+import { useSelector } from 'react-redux';
 
 
 function WorldMap() {
-
-    const [listings, setListings] = useState([]);
+    const [sourceKey, setSourceKey] = useState(0);
+    const listings = useSelector(state => state.listings.allListingsGeoLocation)
+    const filteredListings = useSelector(state => state.listings.filteredListings)
     const [geojson, setGeoJson] = useState({
         type: 'FeatureCollection',
         features: []
     });
+    const [neighbourhoodsJSON, setNeighbourhoodsJSON] = useState(neighbourhoodsGeojson)
+    const selectedNeighbourhood = useSelector(state => state.listings.selectedNeighbourhood)
+
 
     const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-    const fetchData = async () => {
-        try {
-            const data = await fetchListings(); // Gebruik de fetchListings-functie van de service
-            setListings(data);
 
-        } catch (error) {
-            console.error(error.message);
+    const dataLayer = {
+        id: 'data',
+        type: 'fill',
+        paint: {
+            'fill-color': {
+                property: 'neighbourhood',
+                type: 'categorical',
+                stops: [
+                    [selectedNeighbourhood, '#3288bd'],
+                ],
+                default: '#ffffff'
+            },
+            'fill-opacity': 0.5
         }
     };
 
-    useEffect(() => {
-        fetchData();
-        // setGeoJson({
-        //     type: 'FeatureCollection',
-        //     features: [{
 
-        //         type: 'Feature',
-        //         geometry: { type: 'Point', coordinates: [23187, 4883191] },
-        //     },
-        //         // {
-
-        //         //     type: 'Feature',
-        //         //     geometry: { type: 'Point', coordinates: [2.3409, 48.8697] },
-        //         // }
-        //     ]
-        // });
-    }, []);
 
     useEffect(() => {
-        if (listings.length > 0) {
-            console.log("updating bish")
+        if (filteredListings.length > 0) {
+            const newFeatures = filteredListings.map(listing => ({
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [listing.longitude, listing.latitude]
+                }
+            }));
+            setGeoJson({
+                type: 'FeatureCollection',
+                features: newFeatures
+            });
+        } else if (listings.length > 0) {
             const newFeatures = listings.map(listing => ({
                 type: 'Feature',
                 geometry: {
@@ -52,17 +59,12 @@ function WorldMap() {
                     coordinates: [listing.longitude, listing.latitude]
                 }
             }));
-
-            setGeoJson(prevGeoJson => ({
-                ...prevGeoJson,
-                features: [...prevGeoJson.features, ...newFeatures]
-            }));
+            setGeoJson({
+                type: 'FeatureCollection',
+                features: newFeatures
+            });
         }
-    }, [listings]);
-
-
-
-
+    }, [listings, filteredListings]);
 
 
     const layerStyle = {
@@ -73,6 +75,10 @@ function WorldMap() {
             'circle-color': '#007cbf'
         }
     };
+
+    useEffect(() => {
+        setSourceKey(prevKey => prevKey + 1);
+    }, [filteredListings]);
 
     return (
         <div className='w-75'>
@@ -85,10 +91,16 @@ function WorldMap() {
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 mapboxAccessToken={MAPBOX_TOKEN}
             >
-                <Source id="my-data" type="geojson" data={geojson}>
+                <Source key={sourceKey} id="my-data" type="geojson" data={geojson}>
                     <Layer {...layerStyle} />
                 </Source>
+                {selectedNeighbourhood &&
+                    <Source type='geojson' data={neighbourhoodsJSON}>
+                        <Layer {...dataLayer} />
+                    </Source>
+                }
             </Map>
+
 
         </div>
     );

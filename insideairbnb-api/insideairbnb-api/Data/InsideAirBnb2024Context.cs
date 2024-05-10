@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using insideairbnb_api.Models;
 
-namespace insideairbnb_api.Entities;
+namespace insideairbnb_api.Data;
 
 public partial class InsideAirBnb2024Context : DbContext
 {
@@ -22,6 +23,8 @@ public partial class InsideAirBnb2024Context : DbContext
     public virtual DbSet<DetailedListingsParij> DetailedListingsParijs { get; set; }
 
     public virtual DbSet<DetailedReviewsParij> DetailedReviewsParijs { get; set; }
+
+    public virtual DbSet<GeoLocationInfo> GeoLocationInfos { get; set; }
 
     public virtual DbSet<Listing> Listings { get; set; }
 
@@ -245,6 +248,15 @@ public partial class InsideAirBnb2024Context : DbContext
             entity.Property(e => e.ReviewerName).HasColumnName("reviewer_name");
         });
 
+        modelBuilder.Entity<GeoLocationInfo>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__GeoLocat__3214EC0737D75C47");
+
+            entity.ToTable("GeoLocationInfo");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<Listing>(entity =>
         {
             entity
@@ -287,13 +299,13 @@ public partial class InsideAirBnb2024Context : DbContext
 
         modelBuilder.Entity<Neighbourhood>(entity =>
         {
-            entity.HasKey(e => e.Neighbourhood1);
+            entity.HasKey(e => e.Neighbourhoodname);
 
             entity.ToTable("neighbourhoods");
 
-            entity.Property(e => e.Neighbourhood1)
+            entity.Property(e => e.Neighbourhoodname)
                 .HasMaxLength(50)
-                .HasColumnName("neighbourhood");
+                .HasColumnName("neighbourhoodname");
             entity.Property(e => e.NeighbourhoodGroup)
                 .HasMaxLength(1)
                 .HasColumnName("neighbourhood_group");

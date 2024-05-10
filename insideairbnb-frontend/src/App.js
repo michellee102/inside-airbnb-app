@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import DetailedInfo from './components/DetailedInfo';
 
 function App() {
+
   return (
     <div className='container-fluid p-0 d-flex flex-column min-vh-100 '>
       <Navbar />
@@ -12,9 +13,6 @@ function App() {
         <DetailedInfo />
       </div>
 
-      {/* <div className='flex-grow-1 bg-primary d-flex justify-content-center align-items-center'>
-        heya heya heya heyaaaaaaaa
-      </div> */}
     </div>
   );
 }

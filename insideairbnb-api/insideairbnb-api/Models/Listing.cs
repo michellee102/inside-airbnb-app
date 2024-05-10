@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace insideairbnb_api.Entities;
+namespace insideairbnb_api.Models;
 
 public partial class Listing
 {
-
     public long Id { get; set; }
 
     public string Name { get; set; } = null!;

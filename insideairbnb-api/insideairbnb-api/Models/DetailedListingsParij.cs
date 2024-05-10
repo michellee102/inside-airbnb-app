@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace insideairbnb_api.Entities;
+namespace insideairbnb_api.Models;
 
 public partial class DetailedListingsParij
 {

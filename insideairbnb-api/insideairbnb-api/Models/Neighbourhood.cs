@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace insideairbnb_api.Entities;
+namespace insideairbnb_api.Models;
 
 public partial class Neighbourhood
 {
     public string? NeighbourhoodGroup { get; set; }
 
-    public string Neighbourhood1 { get; set; } = null!;
+    public string Neighbourhoodname { get; set; } = null!;
 }

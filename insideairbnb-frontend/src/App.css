@@ -1,3 +1,9 @@
 .detailed-bg-color {
   background-color: #d0d0d0;
 }
+
+/* DROPDOWN */
+.ScrollDropdown {
+  max-height: 200px;
+  overflow-y: auto;
+}
