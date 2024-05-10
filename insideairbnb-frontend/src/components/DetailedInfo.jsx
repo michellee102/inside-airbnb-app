@@ -4,7 +4,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import { getNeighbourhoods } from '../services/ListingService';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedNeighbourhood, fetchListingsByNeighbourhood } from '../redux/slices/listingsSlice';
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DetailedInfo() {
     const dispatch = useDispatch();
@@ -14,6 +14,8 @@ function DetailedInfo() {
     }
     const selectedNeighbourhood = useSelector((state) => state.listings.selectedNeighbourhood)
     const [neighbourhoodNames, setNeighbourhoodNames] = useState([])
+
+
 
     const fetchNeighboorhoodNames = async () => {
         try {
@@ -28,6 +30,7 @@ function DetailedInfo() {
     useEffect(() => {
         fetchNeighboorhoodNames();
     }, [])
+
 
 
 
