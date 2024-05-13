@@ -1,4 +1,8 @@
 using insideairbnb_api.Data;
+using insideairbnb_api.Factories;
+using insideairbnb_api.Interfaces;
+using insideairbnb_api.Models;
+using insideairbnb_api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +28,12 @@ builder.Services.AddDbContext<InsideAirBnb2024Context>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
+
+// Voeg DI voor services toe
+builder.Services.AddScoped<IListingsService, ListingsServiceImpl>();
+// Voeg ISortStrategyFactory toe
+builder.Services.AddScoped<ISortStrategyFactory, SortStrategyFactory>();
+
 
 
 var app = builder.Build();

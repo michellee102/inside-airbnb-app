@@ -5,6 +5,7 @@
 
         public string Id { get; set; }
         public string? HostName { get; set; }
+        public string Name { get; set; } = null!;
 
         public string? Price { get; set; }
         public int NumberOfReviews { get; set; }

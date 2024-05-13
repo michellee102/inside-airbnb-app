@@ -16,6 +16,7 @@ function WorldMap() {
     });
     const [neighbourhoodsJSON, setNeighbourhoodsJSON] = useState(neighbourhoodsGeojson)
     const selectedNeighbourhood = useSelector(state => state.listings.selectedNeighbourhood)
+    const selectedFilters = useSelector(state => state.listings.selectedFilters)
     const [cursor, setCursor] = useState('auto')
     const popupInfo = useSelector(state => state.listings.listingDetails)
 
@@ -31,7 +32,7 @@ function WorldMap() {
                 property: 'neighbourhood',
                 type: 'categorical',
                 stops: [
-                    [selectedNeighbourhood, '#a9f0fe'],
+                    [selectedFilters.selectedNeighbourhood, '#a9f0fe'],
                 ],
                 default: '#808080'
             },
@@ -120,16 +121,20 @@ function WorldMap() {
                             <p className='me-1'>by</p>
                             <p className='text-primary m-0' > <a href={popupInfo.hostUrl}>{popupInfo.hostName}</a> </p>
                         </div>
+
                         <div className='container d-flex flex-column'>
-                            <p className='m-0'>€{popupInfo.price} per night</p>
+                            {popupInfo.price &&
+                                <p className='m-0'>{popupInfo.price} per night</p>
+                            }
                             <p className='m-0'>{popupInfo.numberOfReviews} reviews</p>
                         </div>
+                        
                     </div>
                 </Popup>}
                 <Source key={sourceKey} id="my-data" type="geojson" data={geojson} >
                     <Layer {...layerStyle} />
                 </Source>
-                {selectedNeighbourhood &&
+                {selectedFilters.selectedNeighbourhood &&
                     <Source type='geojson' data={neighbourhoodsJSON}>
                         <Layer {...dataLayer} />
                     </Source>

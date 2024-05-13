@@ -10,7 +10,7 @@ function App() {
     <div className='container-fluid p-0 d-flex flex-column min-vh-100 '>
       <Navbar />
 
-      {isLoading && !isAuthenticated && <div> loading....</div>}
+      {/* {isLoading && !isAuthenticated && <div> loading....</div>}
 
       {isAuthenticated && !isLoading && (
         <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
@@ -24,7 +24,12 @@ function App() {
           <h1 className='h2'>Insights of inside airbnb data of Paris 2024</h1>
           <p>Please login first.</p>
         </div>
-      )}
+      )} */}
+
+      <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
+        <WorldMap />
+        <DetailedInfo />
+      </div>
     </div>
 
   );
