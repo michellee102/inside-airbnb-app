@@ -1,4 +1,5 @@
 ﻿using insideairbnb_api.Models;
+using insideairbnb_api.DTOs;
 
 
 namespace insideairbnb_api.Interfaces
@@ -6,10 +7,10 @@ namespace insideairbnb_api.Interfaces
     public interface IListingsService
     {
 
-        public List<GeoLocationInfo> GetAllGeoLocationInfo();
-        public List<FilteredListing> GetListingsByNeighbourhood(string neighbourhood);
-        public DetailedListingsParij GetListingDetails(string listingId);
-        public List<string> GetListingsFiltered(string neighbourhood = null, double? reviewScore = null);
+        public Task<List<GeoLocationInfo>> GetAllGeoLocationInfo();
+        public Task<DetailedListingsParij> GetListingDetails(string listingId);
+        public Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore);
+        public  Task<List<DetailedListingsParij>> GetListingsGEOLOC();
 
     }
 }

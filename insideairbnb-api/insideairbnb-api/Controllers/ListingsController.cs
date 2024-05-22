@@ -1,6 +1,7 @@
 ﻿using insideairbnb_api.Data;
 using insideairbnb_api.Interfaces;
 using insideairbnb_api.Models;
+using insideairbnb_api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -18,37 +19,37 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("geoinfo")]
-        public ActionResult<List<GeoLocationInfo>> GetAllListings()
+        public async Task<IActionResult> GetAllListings()
         {
-            List<GeoLocationInfo> listings = _listingsService.GetAllGeoLocationInfo();
+            List<GeoLocationInfo> listings = await _listingsService.GetAllGeoLocationInfo();
             return Ok(listings);
         }
 
-        [HttpGet("{neighbourhood}")]
-        public ActionResult<List<FilteredListing>> GetListingsByNeighbourhood(string neighbourhood)
+        [HttpGet("test")]
+        public async Task<IActionResult> GetAllListingsTest()
         {
-
-            List<FilteredListing> listings = _listingsService.GetListingsByNeighbourhood(neighbourhood);
+            List<DetailedListingsParij> listings = await _listingsService.GetListingsGEOLOC();
             return Ok(listings);
         }
+
 
         [HttpGet("filter")]
-        public ActionResult<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore)
+        public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore)
         {
-
-            List<string> listings = _listingsService.GetListingsFiltered(neighbourhood, reviewScore);
+            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore);
             return Ok(listings);
         }
 
         [HttpGet("{id}/details")]
-        public ActionResult<DetailedListingsParij> GetListingDetails(string id)
+        public async Task<IActionResult> GetListingDetails(string id)
         {
-            DetailedListingsParij listingInfo = _listingsService.GetListingDetails(id);
-            if(listingInfo != null)
+            DetailedListingsParij listingInfo =await _listingsService.GetListingDetails(id);
+            if(listingInfo == null)
             {
-                return Ok(listingInfo);
+                return NotFound();
             }
-            return NotFound();
+         
+                return Ok(listingInfo);
         }
 
 

@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 function Navbar() {
     const { loginWithRedirect } = useAuth0();
     const { logout } = useAuth0();
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user, isAuthenticated } = useAuth0();
     return (
 
         <nav className="navbar navbar-light bg-light shadow-sm d-flex ">

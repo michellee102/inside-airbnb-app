@@ -1,6 +1,4 @@
-﻿using insideairbnb_api.Interfaces;
-
-namespace insideairbnb_api.Factories
+﻿namespace insideairbnb_api.Interfaces
 {
     public interface ISortStrategyFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace insideairbnb_api.Models
+﻿namespace insideairbnb_api.DTOs
 {
     public class FilteredListing
     {

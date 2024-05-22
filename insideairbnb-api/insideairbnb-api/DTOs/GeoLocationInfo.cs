@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace insideairbnb_api.Models;
+namespace insideairbnb_api.DTOs;
 
 public partial class GeoLocationInfo
 {

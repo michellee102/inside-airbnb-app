@@ -17,7 +17,7 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Neighbourhood>> GetAllListings()
+        public ActionResult<List<Neighbourhood>> GetAllNeighbourhoods()
         {
             List<Neighbourhood> neighbourhoods = _dataContext.Neighbourhoods.ToList();
 

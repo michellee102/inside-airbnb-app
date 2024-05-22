@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using insideairbnb_api.Models;
+using insideairbnb_api.DTOs;
 
 namespace insideairbnb_api.Data;
 

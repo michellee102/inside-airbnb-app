@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import App from './App';
-import store from './store'
+import store from './redux/store'
 import { Provider } from 'react-redux'
 import { fetchListings } from './redux/slices/listingsSlice';
 import { Auth0Provider } from '@auth0/auth0-react';

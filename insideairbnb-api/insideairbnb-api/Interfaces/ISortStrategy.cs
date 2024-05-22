@@ -1,18 +1,10 @@
-﻿using insideairbnb_api.Models;
+﻿using insideairbnb_api.DTOs;
 
 namespace insideairbnb_api.Interfaces
 {
     public interface ISortStrategy
     {
-        List<ListingPopupInfo> ApplySort();
-        decimal? GetPriceValue(string price)
-        {
-            if (string.IsNullOrWhiteSpace(price))
-            {
-                return null;
-            }
-
-            return decimal.Parse(price.Replace("$", "").Replace(",", ""));
-        }
+        Task<List<ListingPopupInfo>> ApplySort();
+        
     }
 }

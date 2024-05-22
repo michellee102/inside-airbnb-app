@@ -1,7 +1,8 @@
 ﻿using insideairbnb_api.Data;
+using insideairbnb_api.DTOs;
 using insideairbnb_api.Helpers;
 using insideairbnb_api.Interfaces;
-using insideairbnb_api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace insideairbnb_api.Services.Strategies
 {
@@ -14,10 +15,10 @@ namespace insideairbnb_api.Services.Strategies
             _context = context;
         }
 
-        public List<ListingPopupInfo> ApplySort()
+        public async Task<List<ListingPopupInfo>> ApplySort()
         {
-            var listings = _context.DetailedListingsParijs
-                 .Where(l => l.Price != null) // Filter null prijzen
+            List<ListingPopupInfo> listings = await _context.DetailedListingsParijs
+                 .Where(l => l.Price != null) 
                 .Select(l => new ListingPopupInfo
             {
                 Id = l.Id,
@@ -28,17 +29,12 @@ namespace insideairbnb_api.Services.Strategies
                 HostUrl = l.HostUrl,
                 NeighbourhoodCleansed = l.NeighbourhoodCleansed,
                 Name = l.Name
-            }).ToList();
+            }).ToListAsync();
 
-            // Sorteer de lijsten op basis van de prijs
-            var sortedListings = listings.OrderBy(l => PriceHelper.GetPriceValue(l.Price)).ToList();
-
-            //// Zet komma's terug in de prijzen
-            //sortedListings.ForEach(l => l.Price = PriceHelper.FormatPrice(l.Price));
-
+            List<ListingPopupInfo> sortedListings = listings.OrderBy(l => PriceHelper.GetPriceValue(l.Price)).ToList();
             return sortedListings;
         }
-
-  
     }
+
+
 }

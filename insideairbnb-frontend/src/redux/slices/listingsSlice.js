@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { act } from 'react';
 
 export const fetchListings = createAsyncThunk('listings/fetchListings', async () => {
     const response = await fetch('https://localhost:7049/Listings/geoinfo');
@@ -11,25 +10,14 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
     return response.json();
 });
 
-
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters) => {
     const { neighbourhood, review } = filters;
-
-    // Controleren of neighbourhood niet leeg is en zo ja, toevoegen aan de URL
     const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
-
-    // Controleren of review niet leeg is en zo ja, toevoegen aan de URL
     const reviewParam = review ? `&reviewScore=${review}` : '';
-
-    // Samenstellen van de volledige URL
     const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}`;
-
-    console.log("de filters!" + review)
     const response = await fetch(url);
-    console.log(response.json)
     return response.json();
 });
-
 
 export const fetchListingDetails = createAsyncThunk('listings/details', async (listingId) => {
     const response = await fetch(`https://localhost:7049/Listings/${listingId}/details`);
@@ -47,8 +35,6 @@ export const listingsSlice = createSlice({
     initialState: {
         allListingsGeoLocation: [],
         filteredListings: [],
-        selectedNeighbourhood: null,
-        selectedReview: null,
         selectedFilters: {
             selectedNeighbourhood: null,
             selectedReview: null,
@@ -87,6 +73,7 @@ export const listingsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
+
             .addCase(fetchListingsByNeighbourhood.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -98,6 +85,7 @@ export const listingsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
+
             .addCase(fetchListingDetails.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -109,6 +97,7 @@ export const listingsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
+
             .addCase(fetchSortedListings.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -128,9 +117,7 @@ export const listingsSlice = createSlice({
             .addCase(fetchListingsByFilters.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 console.log(action.payload)
-                const filteredIds = action.payload; // Array van ID's
-
-                // Filter de lijst allListingsGeoLocation op basis van de ID's en wijs het resultaat toe aan state.filteredListings
+                const filteredIds = action.payload;
                 state.filteredListings = state.allListingsGeoLocation.filter(listing => filteredIds.includes(listing.id));
             })
             .addCase(fetchListingsByFilters.rejected, (state, action) => {
@@ -141,7 +128,6 @@ export const listingsSlice = createSlice({
 
 });
 
-// Action creators are generated for each case reducer function
-export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters } = listingsSlice.actions;
 
+export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters } = listingsSlice.actions;
 export default listingsSlice.reducer;

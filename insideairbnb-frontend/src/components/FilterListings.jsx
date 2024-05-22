@@ -12,13 +12,12 @@ function FilterListings() {
     const [neighbourhoodNames, setNeighbourhoodNames] = useState([])
     const totalListingsAmount = useSelector(state => state.listings.allListingsGeoLocation.length)
     const filteredListingsAmount = useSelector(state => state.listings.filteredListings.length)
-    const reviewValues = [1, 2, 3, 4, 5];
+    const REVIEW_STARS = [1, 2, 3, 4, 5];
 
     const fetchNeighboorhoodNames = async () => {
         try {
             const data = await getNeighbourhoods();
             setNeighbourhoodNames(data);
-
         } catch (error) {
             console.error(error.message);
         }
@@ -47,7 +46,6 @@ function FilterListings() {
 
     const handleResetFilters = () => {
         dispatch(resetFilters())
-
     }
 
     return (
@@ -59,15 +57,10 @@ function FilterListings() {
                     </p>
                     {(selectedFilters.selectedNeighbourhood || selectedFilters.selectedReview) && <CloseButton onClick={handleResetFilters} />}
                 </div>
-                <div>
-
-                </div>
                 <Dropdown className='p-2'>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         {selectedFilters.selectedNeighbourhood ? selectedFilters.selectedNeighbourhood : 'Neighbourhood'}
                     </Dropdown.Toggle>
-
-
                     <Dropdown.Menu className='ScrollDropdown'>
                         {neighbourhoodNames.map((neighbourhood) => (
                             <Dropdown.Item
@@ -75,9 +68,7 @@ function FilterListings() {
                                 key={neighbourhood.neighbourhoodname}
                                 onClick={() => {
                                     handleNeighbourhoodClick(neighbourhood.neighbourhoodname)
-                                }
-                                }
-                            >
+                                }}>
                                 {neighbourhood.neighbourhoodname}
                             </Dropdown.Item>
                         ))}
@@ -85,25 +76,27 @@ function FilterListings() {
                 </Dropdown>
                 <Dropdown className='p-2'>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        {selectedFilters.selectedReview ? selectedFilters.selectedReview : 'Review'}
+                        {selectedFilters.selectedReview ? selectedFilters.selectedReview : 'Stars'}
                     </Dropdown.Toggle>
                     <Dropdown.Menu className='ScrollDropdown'>
-                        {reviewValues.map((item, index) => (
+                        {REVIEW_STARS.map((item, index) => (
                             <Dropdown.Item
                                 onClick={() => handleReviewClick(item)}
                                 key={index}>{item}</Dropdown.Item>
                         ))}
-
                     </Dropdown.Menu>
                 </Dropdown>
-
             </div>
             <div>
                 <p className='m-0 p-0'>total listings:</p>
                 <p className='h2 m-0 fw-bold'>
-                    {selectedFilters.selectedNeighbourhood === null && selectedFilters.selectedReview === null
-                        ? totalListingsAmount
-                        : filteredListingsAmount}
+                    {totalListingsAmount !== 0 && (
+                        selectedFilters.selectedNeighbourhood === null && selectedFilters.selectedReview === null
+                            ? totalListingsAmount
+                            : filteredListingsAmount !== 0
+                                ? filteredListingsAmount
+                                : null
+                    )}
                 </p>
             </div>
         </div>

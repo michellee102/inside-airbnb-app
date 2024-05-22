@@ -6,27 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 function SortComponent() {
     const dispatch = useDispatch();
     const filteredListings = useSelector((state) => state.listings.sortedListings);
-    const status = useSelector((state) => state.listings.status);
-
     const handleSortSelection = (sortType) => {
         dispatch(fetchSortedListings(sortType));
     };
 
     return (
         <div className='d-flex flex-column justify-content-between align-items-center'>
-
             <Dropdown className='p-2'>
                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                     sort by:
                 </Dropdown.Toggle>
-
                 <Dropdown.Menu className='ScrollDropdown'>
                     <Dropdown.Item onClick={() => handleSortSelection('lowtohigh')}>Low to high</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleSortSelection('hightolow')}>High to low</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-
-
             {filteredListings.length > 0 ? (
                 <div className='ScrollDropdown'>
                     <table className="table  ">
@@ -50,8 +44,7 @@ function SortComponent() {
                         </tbody>
                     </table>
                 </div>
-            ) : <p>ja ni best</p>}
-
+            ) : ''}
         </div>
     );
 }
