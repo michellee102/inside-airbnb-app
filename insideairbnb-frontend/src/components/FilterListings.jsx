@@ -23,6 +23,8 @@ function FilterListings() {
         }
     };
 
+    //bla
+
     useEffect(() => {
         fetchNeighboorhoodNames();
     }, [])
