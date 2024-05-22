@@ -1,11 +1,10 @@
-﻿namespace insideairbnb_api.Interfaces
+﻿using insideairbnb_api.DTOs;
+
+namespace insideairbnb_api.Interfaces
 {
-    public interface IRepository<T>
+    public interface IListingRepository
     {
-        T GetById(int id);
-        List<T> GetAll();
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task<List<GeoLocationInfo>> GetAllGeoLocationInfo();
+        Task<ListingPopupInfo?> GetListingDetails(string listingId);
     }
 }

@@ -12,5 +12,8 @@
         public string ListingUrl { get; set; } = null!;
         public string? HostUrl { get; set; }
         public string NeighbourhoodCleansed { get; set; } = null!;
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 }

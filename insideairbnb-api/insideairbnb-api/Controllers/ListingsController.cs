@@ -13,6 +13,7 @@ namespace insideairbnb_api.Controllers
     {
         private readonly IListingsService _listingsService;
 
+
         public ListingsController(IListingsService listingsService)
         {
             _listingsService = listingsService;
@@ -25,12 +26,12 @@ namespace insideairbnb_api.Controllers
             return Ok(listings);
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> GetAllListingsTest()
-        {
-            List<DetailedListingsParij> listings = await _listingsService.GetListingsGEOLOC();
-            return Ok(listings);
-        }
+        //[HttpGet("test")]
+        //public async Task<IActionResult> GetAllListingsTest()
+        //{
+        //    List<DetailedListingsParij> listings = await _listingsService.GetListingsGEOLOC();
+        //    return Ok(listings);
+        //}
 
 
         [HttpGet("filter")]
@@ -43,7 +44,7 @@ namespace insideairbnb_api.Controllers
         [HttpGet("{id}/details")]
         public async Task<IActionResult> GetListingDetails(string id)
         {
-            DetailedListingsParij listingInfo =await _listingsService.GetListingDetails(id);
+            ListingPopupInfo listingInfo =await _listingsService.GetListingDetails(id);
             if(listingInfo == null)
             {
                 return NotFound();

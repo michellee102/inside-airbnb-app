@@ -4,51 +4,34 @@ using insideairbnb_api.Interfaces;
 using insideairbnb_api.Models;
 using insideairbnb_api.DTOs;
 using Microsoft.EntityFrameworkCore;
+using insideairbnb_api.Data.Repositories;
 
 namespace insideairbnb_api.Services
 {
     public class ListingsServiceImpl : IListingsService
     {
         private readonly InsideAirBnb2024Context _dataContext;
+        private readonly IListingRepository _listingRepository;
 
-        public ListingsServiceImpl(InsideAirBnb2024Context dataContext)
+        public ListingsServiceImpl(InsideAirBnb2024Context dataContext, IListingRepository listingRepository)
         {
             _dataContext = dataContext;
+            _listingRepository = listingRepository;
         }
 
 
         public async Task<List<GeoLocationInfo>> GetAllGeoLocationInfo()
         {
-            List<GeoLocationInfo> listings = await _dataContext.GeoLocationInfos.ToListAsync();
-            return LongLatHelper.FormatLongLat(listings);
+            return await _listingRepository.GetAllGeoLocationInfo();
         }
 
-        public async Task<List<DetailedListingsParij>> GetListingsGEOLOC()
+     
+        public async Task<ListingPopupInfo?> GetListingDetails(string listingId)
         {
-            List<DetailedListingsParij> listings = await _dataContext.DetailedListingsParijs
-        .Select( l => new DetailedListingsParij
-        {
-            Id = l.Id,
-            Longitude = l.Longitude,
-            Latitude = l.Latitude
-        })
-        .ToListAsync();
-            return LongLatHelper.FormatLongLat(listings);
+            return await _listingRepository.GetListingDetails(listingId);
         }
 
-
-        public async Task<DetailedListingsParij?> GetListingDetails(string listingId)
-        {
-            DetailedListingsParij listingInfo = await _dataContext.DetailedListingsParijs
-             .Where(listing => listing.Id == listingId)
-              .FirstAsync();
-            if (listingInfo != null)
-            {
-                return LongLatHelper.FormatLongLatSingle(listingInfo);
-            }
-                return null;
-        }
-
+     
         public async Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore)
         {
             var listings = _dataContext.DetailedListingsParijs.AsQueryable();

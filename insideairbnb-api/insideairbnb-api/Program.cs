@@ -1,4 +1,5 @@
 using insideairbnb_api.Data;
+using insideairbnb_api.Data.Repositories;
 using insideairbnb_api.Factories;
 using insideairbnb_api.Interfaces;
 using insideairbnb_api.Models;
@@ -33,6 +34,7 @@ builder.Services.AddDbContext<InsideAirBnb2024Context>(options =>
 builder.Services.AddScoped<IListingsService, ListingsServiceImpl>();
 // Voeg ISortStrategyFactory toe
 builder.Services.AddScoped<ISortStrategyFactory, SortStrategyFactory>();
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
 
 
