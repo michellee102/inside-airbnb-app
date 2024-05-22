@@ -50,6 +50,58 @@ function WorldMap() {
         }
     };
 
+    const CLUSTER_LAYER = {
+        id: 'clusters',
+        type: 'circle',
+        source: 'my-data',
+        filter: ['has', 'point_count'],
+        paint: {
+            'circle-color': [
+                'step',
+                ['get', 'point_count'],
+                '#51bbd6',
+                100,
+                '#f1f075',
+                750,
+                '#f28cb1'
+            ],
+            'circle-radius': [
+                'step',
+                ['get', 'point_count'],
+                20,
+                100,
+                30,
+                750,
+                40
+            ]
+        }
+    };
+
+    const CLUSTER_COUNT_LAYER = {
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'my-data',
+        filter: ['has', 'point_count'],
+        layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+        }
+    };
+
+    const UNCLUSTERED_POINT_LAYER = {
+        id: 'unclustered-point',
+        type: 'circle',
+        source: 'my-data',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+            'circle-color': '#11b4da',
+            'circle-radius': 4,
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#fff'
+        }
+    };
+
     useEffect(() => {
         if (filteredListings.length > 0) {
             updateMap(filteredListings);
@@ -126,8 +178,19 @@ function WorldMap() {
                         </div>
                     </div>
                 </Popup>}
-                <Source key={sourceKey} id="my-data" type="geojson" data={geojson} >
+                <Source
+                    key={sourceKey}
+                    id="my-data"
+                    type="geojson"
+                    data={geojson}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                >
                     <Layer {...LAYER_STYLE} />
+                    <Layer {...CLUSTER_LAYER} />
+                    <Layer {...CLUSTER_COUNT_LAYER} />
+                    <Layer {...UNCLUSTERED_POINT_LAYER} />
                 </Source>
                 {selectedFilters.selectedNeighbourhood &&
                     <Source type='geojson' data={neighbourhoodsGeojson}>

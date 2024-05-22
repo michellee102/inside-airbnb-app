@@ -52,5 +52,10 @@ namespace insideairbnb_api.Data.Repositories
             }
             return null;
         }
+
+        public Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
