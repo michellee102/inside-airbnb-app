@@ -3,9 +3,51 @@ import WorldMap from './components/WorldMap';
 import Navbar from './components/Navbar';
 import DetailedInfo from './components/DetailedInfo';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+  const [token, setToken] = useState(null);
+
+
+  const checkPermissions = async () => {
+    if (isAuthenticated) {
+      try {
+        const accessToken = await getAccessTokenSilently();
+        setToken(accessToken);
+
+        if (accessToken) {
+          console.log('Access token:', accessToken);
+
+          const response = await fetch('https://localhost:7049/Listings/authentication', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+
+          if (response.ok) {
+            console.log('Authenticated the user!:', response.status);
+            // Dispatch authenticateUser action or any other action you want to perform
+            // dispatch(authenticateUser(data));
+          } else {
+            console.error('Failed to authenticate', response.status);
+          }
+        } else {
+          console.log('No token');
+        }
+      } catch (error) {
+        console.error('Error fetching permissions:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkPermissions();
+  }, [isAuthenticated]);
+
   return (
     <div className='container-fluid p-0 d-flex flex-column min-vh-100 bg-light'>
       <Navbar />

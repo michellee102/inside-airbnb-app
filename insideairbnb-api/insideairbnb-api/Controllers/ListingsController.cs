@@ -4,6 +4,8 @@ using insideairbnb_api.Models;
 using insideairbnb_api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace insideairbnb_api.Controllers
 {
@@ -51,6 +53,15 @@ namespace insideairbnb_api.Controllers
             }
          
                 return Ok(listingInfo);
+        }
+
+
+        [HttpGet("authentication")]
+        [Authorize]
+        public ActionResult<string> GetAuthentication()
+        {
+            const string authenticated = "You have been authenticated!";
+            return Ok(authenticated);
         }
 
 

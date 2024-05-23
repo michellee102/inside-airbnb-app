@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+
+
 export const fetchListings = createAsyncThunk('listings/fetchListings', async () => {
     const response = await fetch('https://localhost:7049/Listings/geoinfo');
     return response.json();
