@@ -28,10 +28,21 @@ function App() {
             }
           });
 
+
           if (response.ok) {
             console.log('Authenticated the user!:', response.status);
             // Dispatch authenticateUser action or any other action you want to perform
             // dispatch(authenticateUser(data));
+
+            const response2 = await fetch('https://localhost:7049/Listings/authorize', {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            });
+
+            if (response.ok) {
+              console.log('Authorized the user!:', response.status);
+            }
           } else {
             console.error('Failed to authenticate', response.status);
           }

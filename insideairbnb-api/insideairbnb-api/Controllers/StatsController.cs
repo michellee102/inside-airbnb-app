@@ -2,6 +2,7 @@
 using insideairbnb_api.DTOs;
 using insideairbnb_api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace insideairbnb_api.Controllers
@@ -42,6 +43,20 @@ namespace insideairbnb_api.Controllers
             return Ok(sortedListings);
         }
 
+
+        [HttpGet("property_type")]
+        public async Task<ActionResult<List<PropertyTypesDTO>>> GetNeighbourhoodRoomType()
+        {
+            var result = await _context.DetailedListingsParijs
+                .Select(listing => new PropertyTypesDTO
+                {
+                    Neighbourhood = listing.NeighbourhoodCleansed,
+                    PropertyType = listing.PropertyType
+                }).ToListAsync();
+
+
+            return Ok(result);
+        }
 
     }
 }

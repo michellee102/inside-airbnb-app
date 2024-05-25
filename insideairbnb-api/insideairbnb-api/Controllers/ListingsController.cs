@@ -65,6 +65,15 @@ namespace insideairbnb_api.Controllers
         }
 
 
+        [HttpGet("authorize")]
+        [Authorize(Policy = "ReadStatsPolicy")]
+        public ActionResult<string> TestAuthorize()
+        {
+            const string authorized = "You have been authorized admin!!";
+            return Ok(authorized);
+        }
+
+
 
     }
 }

@@ -41,11 +41,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("read:messages", policy => policy.Requirements.Add(new
-//    HasScopeRequirement("read:messages", domain)));
-//});
+// Define the authorization policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ReadStatsPolicy", policy =>
+        policy.RequireClaim("permission", "read:stats"));
+});
 
 
 
