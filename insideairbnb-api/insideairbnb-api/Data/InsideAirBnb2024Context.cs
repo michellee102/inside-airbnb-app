@@ -226,6 +226,7 @@ public partial class InsideAirBnb2024Context : DbContext
             entity.Property(e => e.ReviewScoresRating).HasColumnName("review_scores_rating");
             entity.Property(e => e.ReviewScoresValue).HasColumnName("review_scores_value");
             entity.Property(e => e.ReviewsPerMonth).HasColumnName("reviews_per_month");
+            entity.Property(e => e.Price_Formatted).HasColumnName("price_formatted");
             entity.Property(e => e.RoomType)
                 .HasMaxLength(50)
                 .HasColumnName("room_type");

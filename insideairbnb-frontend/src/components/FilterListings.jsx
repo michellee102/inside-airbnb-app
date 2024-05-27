@@ -3,11 +3,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import CloseButton from 'react-bootstrap/CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setSelectedNeighbourhood, fetchListingsByFilters, setSelectedReview, resetFilters } from '../redux/slices/listingsSlice';
+import { setSelectedNeighbourhood, fetchListingsByFilters, setSelectedReview, resetFilters, setMaxPriceFilter } from '../redux/slices/listingsSlice';
 import { getNeighbourhoods } from '../services/ListingService';
+import Form from 'react-bootstrap/Form';
 
 function FilterListings() {
     const dispatch = useDispatch();
+    const [maxPrice, setMaxPrice] = useState('');
     const selectedFilters = useSelector(state => state.listings.selectedFilters)
     const [neighbourhoodNames, setNeighbourhoodNames] = useState([])
     const totalListingsAmount = useSelector(state => state.listings.allListingsGeoLocation.length)
@@ -23,6 +25,11 @@ function FilterListings() {
         }
     };
 
+    const handlePriceChange = (event) => {
+        setMaxPrice(event.target.value);
+        console.log(maxPrice)
+    };
+
     //bla
 
     useEffect(() => {
@@ -34,7 +41,8 @@ function FilterListings() {
         dispatch(setSelectedNeighbourhood(neighbourhood))
         dispatch(fetchListingsByFilters({
             neighbourhood: neighbourhood,
-            review: selectedFilters.selectedReview
+            review: selectedFilters.selectedReview,
+            maxPrice: selectedFilters.maxPrice
         }))
     }
 
@@ -42,13 +50,27 @@ function FilterListings() {
         dispatch(setSelectedReview(review))
         dispatch(fetchListingsByFilters({
             neighbourhood: selectedFilters.selectedNeighbourhood,
-            review: review
+            review: review,
+            maxPrice: selectedFilters.maxPrice
+        }))
+    }
+
+    const handlePriceSubmit = (price) => {
+        console.log("jajaja" + price)
+        dispatch(setMaxPriceFilter(price))
+        dispatch(fetchListingsByFilters({
+            neighbourhood: selectedFilters.selectedNeighbourhood,
+            review: selectedFilters.selectedReview,
+            maxPrice: price
         }))
     }
 
     const handleResetFilters = () => {
         dispatch(resetFilters())
+        setMaxPrice('')
     }
+
+
 
     return (
         <div className='d-flex justify-content-between align-items-center'>
@@ -59,6 +81,7 @@ function FilterListings() {
                     </p>
                     {(selectedFilters.selectedNeighbourhood || selectedFilters.selectedReview) && <CloseButton onClick={handleResetFilters} />}
                 </div>
+                {/* FILTER NEIGHBOURHOODS */}
                 <Dropdown className='p-2'>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         {selectedFilters.selectedNeighbourhood ? selectedFilters.selectedNeighbourhood : 'Neighbourhood'}
@@ -76,6 +99,7 @@ function FilterListings() {
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
+                {/* FILTER REVIEWS */}
                 <Dropdown className='p-2'>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         {selectedFilters.selectedReview ? selectedFilters.selectedReview : 'Stars'}
@@ -88,6 +112,23 @@ function FilterListings() {
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
+                {/* Add a submit button for the max price */}
+                <div className='d-flex '>
+
+                    <Form>
+                        <Form.Group className='p-2'>
+                            <Form.Control
+                                type="text"
+                                placeholder="Max price"
+                                value={maxPrice} // Waarde van het invoerveld
+                                onChange={handlePriceChange} // Functie om de waarde bij te werken
+                            />
+                        </Form.Group>
+                    </Form>
+                    <button
+                        onClick={() => handlePriceSubmit(maxPrice)}
+                        className='btn btn-primary p-0 '>Submit price</button>
+                </div>
             </div>
             <div>
                 <p className='m-0 p-0'>total listings:</p>

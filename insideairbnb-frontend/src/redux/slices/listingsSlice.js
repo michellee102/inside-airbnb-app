@@ -13,10 +13,11 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
 });
 
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters) => {
-    const { neighbourhood, review } = filters;
+    const { neighbourhood, review, maxPrice } = filters;
     const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
     const reviewParam = review ? `&reviewScore=${review}` : '';
-    const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}`;
+    const maxPriceParam = maxPrice ? `&maxPrice=${maxPrice}` : '';
+    const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${maxPriceParam}`;
     const response = await fetch(url);
     return response.json();
 });
@@ -40,6 +41,7 @@ export const listingsSlice = createSlice({
         selectedFilters: {
             selectedNeighbourhood: null,
             selectedReview: null,
+            maxPrice: null
         },
         listingDetails: null,
         sortedListings: [],
@@ -56,9 +58,13 @@ export const listingsSlice = createSlice({
         setSelectedReview: (state, action) => {
             state.selectedFilters.selectedReview = action.payload;
         },
+        setMaxPriceFilter: (state, action) => {
+            state.selectedFilters.maxPrice = action.payload;
+        },
         resetFilters: (state, action) => {
             state.selectedFilters.selectedNeighbourhood = null;
             state.selectedFilters.selectedReview = null;
+            state.selectedFilters.maxPrice = null;
             state.filteredListings = []
         },
     },
@@ -131,5 +137,5 @@ export const listingsSlice = createSlice({
 });
 
 
-export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters } = listingsSlice.actions;
+export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters, setMaxPriceFilter } = listingsSlice.actions;
 export default listingsSlice.reducer;

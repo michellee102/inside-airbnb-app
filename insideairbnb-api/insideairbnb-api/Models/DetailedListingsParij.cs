@@ -154,4 +154,5 @@ public partial class DetailedListingsParij
     public int CalculatedHostListingsCountSharedRooms { get; set; }
 
     public float? ReviewsPerMonth { get; set; }
+    public string? Price_Formatted { get; set; }
 }

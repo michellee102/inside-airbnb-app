@@ -9,7 +9,7 @@ namespace insideairbnb_api.Interfaces
 
         public Task<List<GeoLocationInfo>> GetAllGeoLocationInfo();
         public Task<ListingPopupInfo> GetListingDetails(string listingId);
-        public Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore);
+        public Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore, string? maxPrice);
 
     }
 }

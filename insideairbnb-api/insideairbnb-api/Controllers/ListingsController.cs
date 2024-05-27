@@ -37,9 +37,9 @@ namespace insideairbnb_api.Controllers
 
 
         [HttpGet("filter")]
-        public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore)
+        public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore, string? maxPrice)
         {
-            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore);
+            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore, maxPrice);
             return Ok(listings);
         }
 

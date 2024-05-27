@@ -32,7 +32,7 @@ namespace insideairbnb_api.Services
         }
 
      
-        public async Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore)
+        public async Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore, string? maxPrice)
         {
             var listings = _dataContext.DetailedListingsParijs.AsQueryable();
 
@@ -46,6 +46,13 @@ namespace insideairbnb_api.Services
                 listings = listings.Where(listing =>
                     listing.ReviewScoresRating != null &&
                     listing.ReviewScoresRating.ToString().StartsWith(reviewScore.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(maxPrice))
+            {
+                listings = listings.Where(listing =>
+                    listing.Price_Formatted != null &&
+                    string.Compare(listing.Price_Formatted, maxPrice) <= 0);
             }
 
             var filteredIds = await listings.Select(listing => listing.Id).ToListAsync();
