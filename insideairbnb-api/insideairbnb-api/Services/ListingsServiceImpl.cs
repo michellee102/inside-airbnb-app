@@ -5,6 +5,8 @@ using insideairbnb_api.Models;
 using insideairbnb_api.DTOs;
 using Microsoft.EntityFrameworkCore;
 using insideairbnb_api.Data.Repositories;
+using System.Globalization;
+using insideairbnb_api.Controllers;
 
 namespace insideairbnb_api.Services
 {
@@ -12,11 +14,13 @@ namespace insideairbnb_api.Services
     {
         private readonly InsideAirBnb2024Context _dataContext;
         private readonly IListingRepository _listingRepository;
+        private readonly ILogger<ListingsServiceImpl> _logger;
 
-        public ListingsServiceImpl(InsideAirBnb2024Context dataContext, IListingRepository listingRepository)
+        public ListingsServiceImpl(InsideAirBnb2024Context dataContext, IListingRepository listingRepository, ILogger<ListingsServiceImpl> logger)
         {
             _dataContext = dataContext;
             _listingRepository = listingRepository;
+            _logger = logger;
         }
 
 
@@ -32,7 +36,7 @@ namespace insideairbnb_api.Services
         }
 
      
-        public async Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore, string? maxPrice)
+        public async Task<List<string>> GetListingsFiltered(string? neighbourhood, double? reviewScore, double? minPrice, double? maxPrice)
         {
             var listings = _dataContext.DetailedListingsParijs.AsQueryable();
 
@@ -48,12 +52,25 @@ namespace insideairbnb_api.Services
                     listing.ReviewScoresRating.ToString().StartsWith(reviewScore.ToString()));
             }
 
-            if (!string.IsNullOrEmpty(maxPrice))
+            if (maxPrice.HasValue && minPrice.HasValue)
             {
                 listings = listings.Where(listing =>
-                    listing.Price_Formatted != null &&
-                    string.Compare(listing.Price_Formatted, maxPrice) <= 0);
+                                   listing.Price_Formatted >= minPrice && listing.Price_Formatted <= maxPrice);
+
             }
+            else if (maxPrice.HasValue)
+            {
+                listings = listings.Where(listing =>
+                                   listing.Price_Formatted <= maxPrice);
+            }
+            else if (minPrice.HasValue)
+            {
+
+                listings = listings.Where(listing =>
+                                   listing.Price_Formatted >= minPrice);
+            }
+
+
 
             var filteredIds = await listings.Select(listing => listing.Id).ToListAsync();
             return filteredIds;

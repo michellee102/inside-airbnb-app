@@ -36,7 +36,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     options.Audience = builder.Configuration["Auth0:Audience"];
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        NameClaimType = ClaimTypes.NameIdentifier
+        NameClaimType = ClaimTypes.NameIdentifier,
+        RoleClaimType = "permissions" // This might be necessary to map permissions claim correctly
     };
 });
 
@@ -44,8 +45,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Define the authorization policy
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ReadStatsPolicy", policy =>
-        policy.RequireClaim("permission", "read:stats"));
+    options.AddPolicy("read:stats", policy =>
+        policy.RequireClaim("permissions", "read:stats"));
 });
 
 

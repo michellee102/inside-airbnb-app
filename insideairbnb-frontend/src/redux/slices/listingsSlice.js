@@ -13,11 +13,12 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
 });
 
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters) => {
-    const { neighbourhood, review, maxPrice } = filters;
+    const { neighbourhood, review, maxPrice, minPrice } = filters;
     const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
     const reviewParam = review ? `&reviewScore=${review}` : '';
     const maxPriceParam = maxPrice ? `&maxPrice=${maxPrice}` : '';
-    const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${maxPriceParam}`;
+    const minPriceParam = minPrice ? `&minPrice=${minPrice}` : '';
+    const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${minPriceParam}${maxPriceParam}`;
     const response = await fetch(url);
     return response.json();
 });
@@ -41,7 +42,8 @@ export const listingsSlice = createSlice({
         selectedFilters: {
             selectedNeighbourhood: null,
             selectedReview: null,
-            maxPrice: null
+            maxPrice: null,
+            minPrice: null
         },
         listingDetails: null,
         sortedListings: [],
@@ -58,13 +60,15 @@ export const listingsSlice = createSlice({
         setSelectedReview: (state, action) => {
             state.selectedFilters.selectedReview = action.payload;
         },
-        setMaxPriceFilter: (state, action) => {
-            state.selectedFilters.maxPrice = action.payload;
+        setPriceFilter: (state, action) => {
+            state.selectedFilters.minPrice = action.payload.minPrice;
+            state.selectedFilters.maxPrice = action.payload.maxPrice;
         },
         resetFilters: (state, action) => {
             state.selectedFilters.selectedNeighbourhood = null;
             state.selectedFilters.selectedReview = null;
             state.selectedFilters.maxPrice = null;
+            state.selectedFilters.minPrice = null;
             state.filteredListings = []
         },
     },
@@ -125,6 +129,10 @@ export const listingsSlice = createSlice({
             .addCase(fetchListingsByFilters.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 console.log(action.payload)
+                if (action.payload.length === 0) {
+                    state.filteredListings = [];
+                    return;
+                }
                 const filteredIds = action.payload;
                 state.filteredListings = state.allListingsGeoLocation.filter(listing => filteredIds.includes(listing.id));
             })
@@ -137,5 +145,5 @@ export const listingsSlice = createSlice({
 });
 
 
-export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters, setMaxPriceFilter } = listingsSlice.actions;
+export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters, setPriceFilter } = listingsSlice.actions;
 export default listingsSlice.reducer;

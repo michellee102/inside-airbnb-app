@@ -103,7 +103,8 @@ function WorldMap() {
     };
 
     useEffect(() => {
-        if (filteredListings.length > 0) {
+        const isAnyFilterSelected = Object.values(selectedFilters).some(value => value !== null);
+        if (isAnyFilterSelected) {
             updateMap(filteredListings);
         } else if (listings.length > 0) {
             updateMap(listings);

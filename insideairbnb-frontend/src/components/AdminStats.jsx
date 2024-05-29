@@ -45,6 +45,7 @@ function SortComponent() {
                     </table>
                 </div>
             ) : ''}
+            
         </div>
     );
 }

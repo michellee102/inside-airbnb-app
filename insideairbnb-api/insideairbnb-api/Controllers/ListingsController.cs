@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace insideairbnb_api.Controllers
 {
@@ -14,11 +17,12 @@ namespace insideairbnb_api.Controllers
     public class ListingsController : ControllerBase
     {
         private readonly IListingsService _listingsService;
+        private readonly ILogger<ListingsController> _logger;
 
-
-        public ListingsController(IListingsService listingsService)
+        public ListingsController(IListingsService listingsService, ILogger<ListingsController> logger)
         {
             _listingsService = listingsService;
+            _logger = logger;
         }
 
         [HttpGet("geoinfo")]
@@ -28,33 +32,26 @@ namespace insideairbnb_api.Controllers
             return Ok(listings);
         }
 
-        //[HttpGet("test")]
-        //public async Task<IActionResult> GetAllListingsTest()
-        //{
-        //    List<DetailedListingsParij> listings = await _listingsService.GetListingsGEOLOC();
-        //    return Ok(listings);
-        //}
-
 
         [HttpGet("filter")]
-        public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore, string? maxPrice)
+        public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
-            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore, maxPrice);
+            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(listings);
         }
+
 
         [HttpGet("{id}/details")]
         public async Task<IActionResult> GetListingDetails(string id)
         {
-            ListingPopupInfo listingInfo =await _listingsService.GetListingDetails(id);
-            if(listingInfo == null)
+            ListingPopupInfo listingInfo = await _listingsService.GetListingDetails(id);
+            if (listingInfo == null)
             {
                 return NotFound();
             }
-         
-                return Ok(listingInfo);
-        }
 
+            return Ok(listingInfo);
+        }
 
         [HttpGet("authentication")]
         [Authorize]
@@ -64,16 +61,12 @@ namespace insideairbnb_api.Controllers
             return Ok(authenticated);
         }
 
-
         [HttpGet("authorize")]
-        [Authorize(Policy = "ReadStatsPolicy")]
+        [Authorize("read:stats")]
         public ActionResult<string> TestAuthorize()
         {
             const string authorized = "You have been authorized admin!!";
             return Ok(authorized);
         }
-
-
-
     }
 }

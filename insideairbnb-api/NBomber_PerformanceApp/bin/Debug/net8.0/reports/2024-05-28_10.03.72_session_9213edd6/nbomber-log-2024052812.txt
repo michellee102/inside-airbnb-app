@@ -1,0 +1,12 @@
+2024-05-28 12:03:40.854 +02:00 [INF] [ThreadId:1] NBomber 5.6.0 started a new session: 2024-05-28_10.03.72_session_9213edd6
+2024-05-28 12:03:40.929 +02:00 [INF] [ThreadId:1] NBomber started as single node
+2024-05-28 12:03:40.932 +02:00 [INF] [ThreadId:1] License validation....
+2024-05-28 12:03:40.933 +02:00 [WRN] [ThreadId:1] THIS VERSION IS FREE ONLY FOR PERSONAL USE. You can't use it for an organization.
+2024-05-28 12:03:40.996 +02:00 [INF] [ThreadId:1] Reports folder: D:\HAN_HBO_ICT\2023_2024\NOTS\WAP\inside-airbnb-app\insideairbnb-api\NBomber_PerformanceApp\bin\Debug\net8.0\reports\2024-05-28_10.03.72_session_9213edd6
+2024-05-28 12:03:40.998 +02:00 [INF] [ThreadId:1] Plugin loaded: HttpMetricsPlugin
+2024-05-28 12:03:40.999 +02:00 [INF] [ThreadId:1] Reporting sinks: no reporting sinks were loaded
+2024-05-28 12:03:41.000 +02:00 [INF] [ThreadId:1] Starting init...
+2024-05-28 12:03:41.009 +02:00 [INF] [ThreadId:1] Start init plugin: HttpMetricsPlugin
+2024-05-28 12:03:41.022 +02:00 [INF] [ThreadId:1] Target scenarios: NBomberLoadTester
+2024-05-28 12:03:41.025 +02:00 [INF] [ThreadId:1] Init finished
+2024-05-28 12:03:41.213 +02:00 [INF] [ThreadId:1] Starting bombing...
