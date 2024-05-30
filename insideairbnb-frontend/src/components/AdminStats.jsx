@@ -75,55 +75,61 @@ function SortComponent() {
 
 
     return (
-        <div className='container'>
-           
-
-            <div className="container-fluid">
-                {/* First BarChart */}
-                <div className="row">
-                    <div className="col">
-                        <h4>Average booked nights</h4>
-                        <BarChart labels={months} dataValues={averageNights} title="Average booked nights per month" />
+        <div className='container ' style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
+            <div className='container ' >
+                <div className="container-fluid p-0 m-0 align-items-center justify-content-center">
+                    {/* First BarChart */}
+                    <div className="row">
+                        <div className="col">
+                            <h4>Average booked nights per month</h4>
+                            <BarChart labels={months} dataValues={averageNights} title="Average booked nights per month" />
+                        </div>
                     </div>
-                </div>
+                    {/* Divider line */}
+                    <hr />
 
-                {/* Second BarChart */}
-                <div className='d-flex justify-content-center align-items-center'>
-                    <Dropdown className='p-2'>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                            {selectedNeighbourhood || 'Neighbourhood'}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className='ScrollDropdown'>
-                            {neighbourhoodNames.map((neighbourhood) => (
-                                <Dropdown.Item
-                                    className='text-dark'
-                                    key={neighbourhood.neighbourhoodname}
-                                    onClick={() => setSelectedNeighbourhood(neighbourhood.neighbourhoodname)}
-                                >
-                                    {neighbourhood.neighbourhoodname}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <h4>Total revenue</h4>
-                        <BarChart labels={totalRevenueMonths} dataValues={totalRevenue}
-                            title={`Revenue in ${selectedNeighbourhood} per month`}
-                            dollarSignTooltip={true}
-                        />
+                    {/* Second BarChart */}
+                    <div className='d-flex justify-content-center align-items-center p-0 m-0'>
+                        <Dropdown className='p-2'>
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                {selectedNeighbourhood || 'Neighbourhood'}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu className='ScrollDropdown'>
+                                {neighbourhoodNames.map((neighbourhood) => (
+                                    <Dropdown.Item
+                                        className='text-dark'
+                                        key={neighbourhood.neighbourhoodname}
+                                        onClick={() => setSelectedNeighbourhood(neighbourhood.neighbourhoodname)}
+                                    >
+                                        {neighbourhood.neighbourhoodname}
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
-                </div>
 
-                {/* Third BarChart */}
-                <div className="row">
-                    <div className="col">
-                        <h4>Average Ratings</h4>
-                        <BarChart labels={neighbourhoods} dataValues={averageRatings} title="Average Ratings" yTitle="Amount of stars"
-                            xAxisLabelSize={12}
-                        />
+
+                    {/* Second BarChart */}
+                    <div className="row">
+                        <div className="col">
+                            <h4>Total revenue per neighbourhood per month</h4>
+                            <BarChart labels={totalRevenueMonths} dataValues={totalRevenue}
+                                title={`Revenue in ${selectedNeighbourhood} per month`}
+                                dollarSignTooltip={true}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Divider line */}
+                    <hr />
+                    {/* Third BarChart */}
+                    <div className="row ">
+                        <div className="col">
+                            <h4>Average ratings per neighbourhood</h4>
+                            <BarChart labels={neighbourhoods} dataValues={averageRatings} title="Average Ratings" yTitle="Amount of stars"
+                                xAxisLabelSize={12}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

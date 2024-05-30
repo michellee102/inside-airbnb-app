@@ -63,7 +63,7 @@ function App() {
   }, [isAuthenticated]);
 
   return (
-    <div className='container-fluid p-0 d-flex flex-column min-vh-100 bg-light'>
+    <div className='container-fluid p-0 d-flex flex-column min-vh-100 bg-light' style={{ maxHeight: '100vh', overflow: 'hidden' }}>
       <Navbar />
 
       {isLoading && !isAuthenticated && <div> loading....</div>}
@@ -77,16 +77,15 @@ function App() {
             </div>
           </div>
           <div className="col-4">
-            <div className="container d-flex flex-column detailed-bg-color bg-gradient h-100">
+            <div className="container d-flex flex-column detailed-bg-color bg-gradient h-100" >
               <DetailedInfo accessToken={token} />
             </div>
           </div>
         </div>
-
       )}
 
       {!isAuthenticated && !isLoading && (
-        <div className='container-fluid flex-column d-flex flex-grow-1 p-0 m-0 mt-5 align-items-center  '>
+        <div className='container-fluid flex-column d-flex flex-grow-1 p-0 m-0 mt-5 align-items-center'>
           <h1 className='h2'>Insights of inside airbnb data of Paris 2024</h1>
           <p>Please login first.</p>
         </div>

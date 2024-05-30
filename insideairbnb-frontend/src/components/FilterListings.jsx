@@ -101,9 +101,9 @@ function FilterListings() {
                         </Dropdown>
                     </div>
 
-                    <div>
-                        <p className='m-0 p-0'>total listings:</p>
-                        <p className='h2 m-0 fw-bold'>
+                    <div >
+                        <p className='m-0 p-0 fs-3'>total listings:</p>
+                        <p className='fs-1 m-0 fw-bold'>
                             {totalListingsAmount !== 0 && (
                                 selectedFilters.selectedNeighbourhood === null && selectedFilters.selectedReview === null && selectedFilters.maxPrice === null && selectedFilters.minPrice === null
                                     ? totalListingsAmount
