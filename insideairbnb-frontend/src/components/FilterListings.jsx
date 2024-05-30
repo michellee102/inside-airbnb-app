@@ -2,9 +2,8 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import CloseButton from 'react-bootstrap/CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { setSelectedNeighbourhood, fetchListingsByFilters, setSelectedReview, resetFilters, setPriceFilter } from '../redux/slices/listingsSlice';
-import { getNeighbourhoods } from '../services/ListingService';
 import Form from 'react-bootstrap/Form';
 
 function FilterListings() {
@@ -12,25 +11,10 @@ function FilterListings() {
     const [maxPrice, setMaxPrice] = useState('');
     const [minPrice, setMinPrice] = useState('');
     const selectedFilters = useSelector(state => state.listings.selectedFilters)
-    const [neighbourhoodNames, setNeighbourhoodNames] = useState([])
+    const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods)
     const totalListingsAmount = useSelector(state => state.listings.allListingsGeoLocation.length)
     const filteredListingsAmount = useSelector(state => state.listings.filteredListings.length)
     const REVIEW_STARS = [1, 2, 3, 4, 5];
-
-    const fetchNeighboorhoodNames = async () => {
-        try {
-            const data = await getNeighbourhoods();
-            setNeighbourhoodNames(data);
-        } catch (error) {
-            console.error(error.message);
-        }
-    };
-
-
-
-    useEffect(() => {
-        fetchNeighboorhoodNames();
-    }, [])
 
 
     const handleNeighbourhoodClick = (neighbourhood) => {

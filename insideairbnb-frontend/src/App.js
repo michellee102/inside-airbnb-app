@@ -71,9 +71,18 @@ function App() {
       {/* TODO: Check hier of user admin is en geef dit door als prop aan DetailedInfo */}
       {isAuthenticated && !isLoading && (
         <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
-          <WorldMap />
-          <DetailedInfo accessToken={token} />
+          <div className='col-8'>
+            <div className="container d-flex h-100 p-0 m-0">
+              <WorldMap />
+            </div>
+          </div>
+          <div className="col-4">
+            <div className="container d-flex flex-column detailed-bg-color bg-gradient h-100">
+              <DetailedInfo accessToken={token} />
+            </div>
+          </div>
         </div>
+
       )}
 
       {!isAuthenticated && !isLoading && (

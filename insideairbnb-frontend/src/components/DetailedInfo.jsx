@@ -20,7 +20,7 @@ function DetailedInfo({ accessToken }) {
     }, [accessToken]);
 
     return (
-        <div className="container d-flex flex-column detailed-bg-color bg-gradient w-25 ">
+        <div className="container d-flex flex-column detailed-bg-color bg-gradient ">
             <p className="d-flex justify-content-center p-3 fs-3">
                 Paris
             </p>

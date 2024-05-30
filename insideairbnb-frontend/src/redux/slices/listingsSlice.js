@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 
+export const fetchNeighbourhoods = createAsyncThunk('listings/fetchNeighbourhoods', async () => {
+    const response = await fetch('https://localhost:7049/Neighbourhoods');
+    return await response.json();
+});
+
 
 export const fetchListings = createAsyncThunk('listings/fetchListings', async () => {
     const response = await fetch('https://localhost:7049/Listings/geoinfo');
@@ -34,11 +39,29 @@ export const fetchSortedListings = createAsyncThunk('listings/sorted', async (so
 });
 
 
+//  ---------------------------------------------------- STATS ----------------------------------------------------
+export const fetchAverageNightsPerMonth = createAsyncThunk('listings/averageNightsPerMonth', async () => {
+    const response = await fetch(`https://localhost:7049/Listings/stats/average-nights-per-month`);
+    return response.json();
+});
+
+export const fetchTotalRevenue = createAsyncThunk('listings/fetchTotalRevenue', async (neighbourhood) => {
+    const response = await fetch(`https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=${neighbourhood}`);
+    return response.json();
+});
+
+export const fetchAverageRating = createAsyncThunk('listings/averageRating', async () => {
+    const response = await fetch(`https://localhost:7049/Listings/stats/average-rating-per-neighbourhood`);
+    return response.json();
+});
+
+
 export const listingsSlice = createSlice({
     name: 'listings',
     initialState: {
         allListingsGeoLocation: [],
         filteredListings: [],
+        neighbourhoods: [],
         selectedFilters: {
             selectedNeighbourhood: null,
             selectedReview: null,
@@ -137,6 +160,18 @@ export const listingsSlice = createSlice({
                 state.filteredListings = state.allListingsGeoLocation.filter(listing => filteredIds.includes(listing.id));
             })
             .addCase(fetchListingsByFilters.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+
+            .addCase(fetchNeighbourhoods.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchNeighbourhoods.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.neighbourhoods = action.payload;
+            })
+            .addCase(fetchNeighbourhoods.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

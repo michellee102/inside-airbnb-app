@@ -142,7 +142,7 @@ function WorldMap() {
     };
 
     return (
-        <div className='w-75'>
+        <div className='w-100'>
             <Map
                 interactiveLayerIds={['airbnbpoint']}
                 onClick={(e) => handlePointClick(e)}

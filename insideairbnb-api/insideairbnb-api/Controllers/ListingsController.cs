@@ -40,6 +40,33 @@ namespace insideairbnb_api.Controllers
             return Ok(listings);
         }
 
+        [HttpGet("stats/top5")]
+        public async Task<IActionResult> GetTop5Properties(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
+        {
+            Dictionary<string, int> propertystats = await _listingsService.GetStatistics(neighbourhood, reviewScore, minPrice, maxPrice);
+            return Ok(propertystats);
+        }
+
+        [HttpGet("stats/average-nights-per-month")]
+        public async Task<IActionResult> GetAverageNightsPerMonth()
+        {
+            var stats = await _listingsService.GetAverageNightsPerMonth();
+            return Ok(stats);
+        }
+
+        [HttpGet("stats/revenue-per-neighbourhood-per-month")]
+        public async Task<IActionResult> GetTotalRevenuePerNeighbourhoodPerMonth(string neighbourhood)
+        {
+            var stats = await _listingsService.GetTotalRevenuePerNeighbourhoodPerMonth(neighbourhood);
+            return Ok(stats);
+        }
+
+        [HttpGet("stats/average-rating-per-neighbourhood")]
+        public async Task<IActionResult> GetAverageRatingPerNeighbourhood()
+        {
+            var stats = await _listingsService.GetAverageRatingPerNeighbourhood();
+            return Ok(stats);
+        }
 
         [HttpGet("{id}/details")]
         public async Task<IActionResult> GetListingDetails(string id)
@@ -68,5 +95,7 @@ namespace insideairbnb_api.Controllers
             const string authorized = "You have been authorized admin!!";
             return Ok(authorized);
         }
+
+
     }
 }
