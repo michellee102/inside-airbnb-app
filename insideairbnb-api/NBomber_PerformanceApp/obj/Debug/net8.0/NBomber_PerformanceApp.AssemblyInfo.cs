@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NBomber_PerformanceApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31d959741bacc24a7c067cdd90ad143b1a725bee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2db41d7554e23282e23e414ea5c51695b23afd60")]
 [assembly: System.Reflection.AssemblyProductAttribute("NBomber_PerformanceApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NBomber_PerformanceApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

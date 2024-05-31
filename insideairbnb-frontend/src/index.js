@@ -8,10 +8,14 @@ import { Provider } from 'react-redux'
 import { fetchListings, fetchNeighbourhoods } from './redux/slices/listingsSlice';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-store.dispatch(fetchListings())
-store.dispatch(fetchNeighbourhoods())
+
+
+
+
 
 root.render(
   <Auth0Provider

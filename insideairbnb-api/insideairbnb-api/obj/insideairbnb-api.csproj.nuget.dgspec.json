@@ -64,9 +64,25 @@
               "target": "Package",
               "version": "[8.0.4, )"
             },
+            "MiniProfiler.AspNetCore": {
+              "target": "Package",
+              "version": "[4.3.8, )"
+            },
+            "MiniProfiler.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[4.3.8, )"
+            },
+            "MiniProfiler.Providers.SqlServer": {
+              "target": "Package",
+              "version": "[4.3.8, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.6, )"
             }
           },
           "imports": [

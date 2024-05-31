@@ -14,6 +14,7 @@ function FilterListings() {
     const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods)
     const totalListingsAmount = useSelector(state => state.listings.allListingsGeoLocation.length)
     const filteredListingsAmount = useSelector(state => state.listings.filteredListings.length)
+    const accessToken = useSelector(state => state.listings.accessToken)
     const REVIEW_STARS = [1, 2, 3, 4, 5];
 
 
@@ -24,7 +25,7 @@ function FilterListings() {
             review: selectedFilters.selectedReview,
             minPrice: selectedFilters.minPrice,
             maxPrice: selectedFilters.maxPrice,
-        }))
+        }, accessToken))
     }
 
     const handleReviewClick = (review) => {
@@ -35,7 +36,7 @@ function FilterListings() {
             minPrice: selectedFilters.minPrice,
             maxPrice: selectedFilters.maxPrice,
 
-        }))
+        }, accessToken))
     }
 
     const handlePriceSubmit = () => {
@@ -46,7 +47,7 @@ function FilterListings() {
             review: selectedFilters.selectedReview,
             minPrice: minPrice,
             maxPrice: maxPrice
-        }))
+        }, accessToken))
     }
 
     const handleResetFilters = () => {

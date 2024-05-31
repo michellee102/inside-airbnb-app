@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using StackExchange.Profiling;
 
 namespace insideairbnb_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
     public class ListingsController : ControllerBase
     {
         private readonly IListingsService _listingsService;
@@ -26,10 +28,17 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("geoinfo")]
+        [Authorize]
         public async Task<IActionResult> GetAllListings()
         {
-            List<GeoLocationInfo> listings = await _listingsService.GetAllGeoLocationInfo();
+            List<GeoLocationInfo> listings;
+            //using (MiniProfiler.Current.Step("GetAllListings"))
+            //{
+                listings = await _listingsService.GetAllGeoLocationInfo();
+            //}
+
             return Ok(listings);
+         
         }
 
 
@@ -48,6 +57,7 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("stats/average-nights-per-month")]
+        [Authorize("read:stats")]
         public async Task<IActionResult> GetAverageNightsPerMonth()
         {
             var stats = await _listingsService.GetAverageNightsPerMonth();
@@ -55,6 +65,7 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("stats/revenue-per-neighbourhood-per-month")]
+        [Authorize("read:stats")]
         public async Task<IActionResult> GetTotalRevenuePerNeighbourhoodPerMonth(string neighbourhood)
         {
             var stats = await _listingsService.GetTotalRevenuePerNeighbourhoodPerMonth(neighbourhood);
@@ -62,6 +73,7 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("stats/average-rating-per-neighbourhood")]
+        [Authorize("read:stats")]
         public async Task<IActionResult> GetAverageRatingPerNeighbourhood()
         {
             var stats = await _listingsService.GetAverageRatingPerNeighbourhood();
@@ -88,13 +100,13 @@ namespace insideairbnb_api.Controllers
             return Ok(authenticated);
         }
 
-        [HttpGet("authorize")]
-        [Authorize("read:stats")]
-        public ActionResult<string> TestAuthorize()
-        {
-            const string authorized = "You have been authorized admin!!";
-            return Ok(authorized);
-        }
+        //[HttpGet("authorize")]
+        //[Authorize("read:stats")]
+        //public ActionResult<string> TestAuthorize()
+        //{
+        //    const string authorized = "You have been authorized admin!!";
+        //    return Ok(authorized);
+        //}
 
 
     }

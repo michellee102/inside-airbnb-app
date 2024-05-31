@@ -2,14 +2,16 @@ using insideairbnb_api.Data;
 using insideairbnb_api.Data.Repositories;
 using insideairbnb_api.Factories;
 using insideairbnb_api.Interfaces;
-using insideairbnb_api.Models;
-using insideairbnb_api.Requirements;
 using insideairbnb_api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Profiling.Storage;
 using System.Security.Claims;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,9 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
+
+
 
 // 1. Add Authentication Services
 
@@ -62,6 +67,14 @@ builder.Services.AddDbContext<InsideAirBnb2024Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
 
+builder.Services.AddMiniProfiler(options =>
+{
+    options.RouteBasePath = "/profiler";
+    options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomRight;
+    options.PopupShowTimeWithChildren = true;
+    options.Storage = new SqlServerStorage(builder.Configuration.GetConnectionString("MiniProfilerDB"));
+});
+
 // Voeg DI voor services toe
 builder.Services.AddScoped<IListingsService, ListingsServiceImpl>();
 // Voeg ISortStrategyFactory toe
@@ -72,6 +85,7 @@ builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
 var app = builder.Build();
 
+app.UseMiniProfiler();
 // 2. Enable authentication middleware
 app.UseAuthentication();
 app.UseAuthorization();

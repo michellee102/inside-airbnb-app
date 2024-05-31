@@ -24,6 +24,7 @@ function WorldMap() {
     const START_ZOOM = 11;
     const LISTINGS_CIRCLE_COLOR = "#007cbf";
     const LISTINGS_CIRCLE_RADIUS = 2;
+    const accessToken = useSelector(state => state.listings.accessToken)
 
     const DATA_LAYER = {
         id: 'data',
@@ -137,7 +138,7 @@ function WorldMap() {
 
     const handlePointClick = event => {
         if (event.features[0]) {
-            dispatch(fetchListingDetails(event.features[0].properties.id))
+            dispatch(fetchListingDetails(event.features[0].properties.id, accessToken))
         }
     };
 

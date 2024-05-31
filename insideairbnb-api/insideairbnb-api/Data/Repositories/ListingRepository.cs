@@ -23,6 +23,7 @@ namespace insideairbnb_api.Data.Repositories
                     Longitude = l.Longitude,
                     Latitude = l.Latitude
                 })
+                .AsNoTracking()
                 .ToListAsync();
             return LongLatHelper.FormatLongLat(listings);
         }

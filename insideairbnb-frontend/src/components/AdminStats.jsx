@@ -1,137 +1,183 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Container, Row, Col } from 'react-bootstrap';
-import { fetchSortedListings } from '../redux/slices/listingsSlice';
+import { Button, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import BarChart from './BarChart';
 import { useEffect, useState } from 'react';
 import { fetchAverageNightsPerMonth, fetchTotalRevenue, fetchAverageRating } from '../redux/slices/listingsSlice';
-import DoughnutChart from './DoughnutChart';
-
 
 function SortComponent() {
     const dispatch = useDispatch();
-    const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods)
-    const defaultNeighbourhood = neighbourhoodNames.length > 0 ? neighbourhoodNames[0].neighbourhoodname : null;
-    const [selectedNeighbourhood, setSelectedNeighbourhood] = useState(defaultNeighbourhood);
+    const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods);
 
-    const filteredListings = useSelector((state) => state.listings.sortedListings);
-    const handleSortSelection = (sortType) => {
-        dispatch(fetchSortedListings(sortType));
-    };
+    const [selectedNeighbourhood, setSelectedNeighbourhood] = useState(null);
+    const accessToken = useSelector(state => state.listings.accessToken);
+
+    const [showStatistics, setShowStatistics] = useState(false);
+
     const [months, setMonths] = useState([]);
     const [averageNights, setAverageNights] = useState([]);
+    const [loadingNights, setLoadingNights] = useState(false);
+    const [nightsFetched, setNightsFetched] = useState(false);
 
     const [totalRevenue, setTotalRevenue] = useState([]);
     const [totalRevenueMonths, setTotalRevenueMonths] = useState([]);
+    const [loadingRevenue, setLoadingRevenue] = useState(false);
+    const [revenueFetched, setRevenueFetched] = useState(false);
 
     const [neighbourhoods, setNeighbourhoods] = useState([]);
     const [averageRatings, setAverageRatings] = useState([]);
-    const years = ["2023", "2024"];
+    const [loadingRatings, setLoadingRatings] = useState(false);
+    const [ratingsFetched, setRatingsFetched] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchAverageNightsPerMonth())
-            .then((data) => {
-                const monthsArray = data.payload.map((item) => item.month);
-                const averageNightsArray = data.payload.map((item) => item.averageNights);
-                setMonths(monthsArray);
-                setAverageNights(averageNightsArray);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        if (neighbourhoodNames.length > 0) {
+            setSelectedNeighbourhood(neighbourhoodNames[0].neighbourhoodname);
+        }
+    }, [neighbourhoodNames]);
 
     useEffect(() => {
-        if (selectedNeighbourhood) {
-            dispatch(fetchTotalRevenue(selectedNeighbourhood))
+        if (accessToken && showStatistics && !nightsFetched) {
+            setLoadingNights(true);
+            dispatch(fetchAverageNightsPerMonth(accessToken))
                 .then((data) => {
-                    console.log(data.payload);
-                    const monthsArray = data.payload.map((item) => item.month);
-                    const totalRev = data.payload.map((item) => item.totalRevenue);
-                    setTotalRevenueMonths(monthsArray);
-                    setTotalRevenue(totalRev);
+                    if (data.payload) {
+                        const monthsArray = data.payload.map((item) => item.month);
+                        const averageNightsArray = data.payload.map((item) => item.averageNights);
+                        setMonths(monthsArray);
+                        setAverageNights(averageNightsArray);
+                        setNightsFetched(true);
+                    } else {
+                        console.error("fetchAverageNightsPerMonth returned no payload", data);
+                    }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error("Error fetching average nights per month:", error);
+                })
+                .finally(() => {
+                    setLoadingNights(false);
                 });
         }
-    }, [selectedNeighbourhood]);
-
+    }, [accessToken, showStatistics, nightsFetched, dispatch]);
 
     useEffect(() => {
-        dispatch(fetchAverageRating())
-            .then((data) => {
-                console.log(data.payload);
-                const neighbourhoodsForRatings = data.payload.map((item) => item.neighbourhood);
-                const ratings = data.payload.map((item) => item.averageRating);
-                setNeighbourhoods(neighbourhoodsForRatings);
-                setAverageRatings(ratings);
-                console.log(neighbourhoods);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        if (selectedNeighbourhood && accessToken && showStatistics && !revenueFetched) {
+            setLoadingRevenue(true);
+            dispatch(fetchTotalRevenue({ neighbourhood: selectedNeighbourhood, accessToken }))
+                .then((data) => {
+                    if (data.payload) {
+                        const monthsArray = data.payload.map((item) => item.month);
+                        const totalRev = data.payload.map((item) => item.totalRevenue);
+                        setTotalRevenueMonths(monthsArray);
+                        setTotalRevenue(totalRev);
+                        setRevenueFetched(true);
+                    } else {
+                        console.error("fetchTotalRevenue returned no payload", data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching total revenue:", error);
+                })
+                .finally(() => {
+                    setLoadingRevenue(false);
+                });
+        }
+    }, [selectedNeighbourhood, accessToken, showStatistics, revenueFetched, dispatch]);
 
+    useEffect(() => {
+        if (accessToken && showStatistics && !ratingsFetched) {
+            setLoadingRatings(true);
+            dispatch(fetchAverageRating(accessToken))
+                .then((data) => {
+                    if (data.payload) {
+                        const neighbourhoodsForRatings = data.payload.map((item) => item.neighbourhood);
+                        const ratings = data.payload.map((item) => item.averageRating);
+                        setNeighbourhoods(neighbourhoodsForRatings);
+                        setAverageRatings(ratings);
+                        setRatingsFetched(true);
+                    } else {
+                        console.error("fetchAverageRating returned no payload", data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching average ratings:", error);
+                })
+                .finally(() => {
+                    setLoadingRatings(false);
+                });
+        }
+    }, [accessToken, showStatistics, ratingsFetched, dispatch]);
 
     return (
-        <div className='container ' style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
-            <div className='container ' >
-                <div className="container-fluid p-0 m-0 align-items-center justify-content-center">
-                    {/* First BarChart */}
-                    <div className="row">
-                        <div className="col">
-                            <h4>Average booked nights per month</h4>
-                            <BarChart labels={months} dataValues={averageNights} title="Average booked nights per month" />
+        <div className='container ' style={{ maxHeight: 'calc(100vh - 310px)', overflowY: 'auto' }}>
+            <div className='container d-flex flex-column '>
+                <Button onClick={() => setShowStatistics(!showStatistics)} className="mb-3 btn-info mt-2">
+                    {showStatistics ? 'Hide Statistics' : 'Show Statistics'}
+                </Button>
+                {showStatistics && (
+                    <div className="container-fluid p-0 m-0 align-items-center justify-content-center">
+                        {/* First BarChart */}
+                        <div className="row">
+                            <div className="col d-flex flex-column justify-content-center align-items-center">
+                                <h4>Average booked nights per month</h4>
+                                {loadingNights ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <BarChart labels={months} dataValues={averageNights} title="Average booked nights per month" />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    {/* Divider line */}
-                    <hr />
-
-                    {/* Second BarChart */}
-                    <div className='d-flex justify-content-center align-items-center p-0 m-0'>
-                        <Dropdown className='p-2'>
-                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                {selectedNeighbourhood || 'Neighbourhood'}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className='ScrollDropdown'>
-                                {neighbourhoodNames.map((neighbourhood) => (
-                                    <Dropdown.Item
-                                        className='text-dark'
-                                        key={neighbourhood.neighbourhoodname}
-                                        onClick={() => setSelectedNeighbourhood(neighbourhood.neighbourhoodname)}
-                                    >
-                                        {neighbourhood.neighbourhoodname}
-                                    </Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-
-
-                    {/* Second BarChart */}
-                    <div className="row">
-                        <div className="col">
+                        {/* Divider line */}
+                        <hr />
+                        {/* Second BarChart */}
+                        <div className='d-flex flex-column justify-content-center align-items-center p-0 m-0'>
                             <h4>Total revenue per neighbourhood per month</h4>
-                            <BarChart labels={totalRevenueMonths} dataValues={totalRevenue}
-                                title={`Revenue in ${selectedNeighbourhood} per month`}
-                                dollarSignTooltip={true}
-                            />
+                            <Dropdown className='p-2'>
+                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                    {selectedNeighbourhood || 'Neighbourhood'}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className='ScrollDropdown'>
+                                    {neighbourhoodNames.map((neighbourhood) => (
+                                        <Dropdown.Item
+                                            className='text-dark'
+                                            key={neighbourhood.neighbourhoodname}
+                                            onClick={() => setSelectedNeighbourhood(neighbourhood.neighbourhoodname)}
+                                        >
+                                            {neighbourhood.neighbourhoodname}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                        {/* Second BarChart */}
+                        <div className="row">
+                            <div className="col">
+                                {loadingRevenue ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <BarChart labels={totalRevenueMonths} dataValues={totalRevenue}
+                                        title={`Revenue in ${selectedNeighbourhood} per month`}
+                                        dollarSignTooltip={true}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                        {/* Divider line */}
+                        <hr />
+                        {/* Third BarChart */}
+                        <div className="row">
+                            <div className="col d-flex flex-column justify-content-center align-items-center">
+                                <h4>Average ratings per neighbourhood</h4>
+                                {loadingRatings ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <BarChart labels={neighbourhoods} dataValues={averageRatings} title="Average Ratings" yTitle="Amount of stars"
+                                        xAxisLabelSize={12}
+                                    />
+                                )}
+                            </div>
                         </div>
                     </div>
-
-                    {/* Divider line */}
-                    <hr />
-                    {/* Third BarChart */}
-                    <div className="row ">
-                        <div className="col">
-                            <h4>Average ratings per neighbourhood</h4>
-                            <BarChart labels={neighbourhoods} dataValues={averageRatings} title="Average Ratings" yTitle="Amount of stars"
-                                xAxisLabelSize={12}
-                            />
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );

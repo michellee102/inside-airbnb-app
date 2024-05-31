@@ -1,57 +1,97 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { accessToken } from 'mapbox-gl';
 
 
-export const fetchNeighbourhoods = createAsyncThunk('listings/fetchNeighbourhoods', async () => {
-    const response = await fetch('https://localhost:7049/Neighbourhoods');
+export const fetchNeighbourhoods = createAsyncThunk('listings/fetchNeighbourhoods', async (accessToken) => {
+    const response = await fetch('https://localhost:7049/Neighbourhoods', {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return await response.json();
 });
 
 
-export const fetchListings = createAsyncThunk('listings/fetchListings', async () => {
-    const response = await fetch('https://localhost:7049/Listings/geoinfo');
+export const fetchListings = createAsyncThunk('listings/fetchListings', async (accessToken) => {
+    const response = await fetch('https://localhost:7049/Listings/geoinfo', {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
-export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async (neighbourhood) => {
-    const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`);
+export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async (neighbourhood, accessToken) => {
+    const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
-export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters) => {
+export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters, accessToken) => {
     const { neighbourhood, review, maxPrice, minPrice } = filters;
     const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
     const reviewParam = review ? `&reviewScore=${review}` : '';
     const maxPriceParam = maxPrice ? `&maxPrice=${maxPrice}` : '';
     const minPriceParam = minPrice ? `&minPrice=${minPrice}` : '';
     const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${minPriceParam}${maxPriceParam}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
-export const fetchListingDetails = createAsyncThunk('listings/details', async (listingId) => {
-    const response = await fetch(`https://localhost:7049/Listings/${listingId}/details`);
+export const fetchListingDetails = createAsyncThunk('listings/details', async (listingId, accessToken) => {
+    const response = await fetch(`https://localhost:7049/Listings/${listingId}/details`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
-export const fetchSortedListings = createAsyncThunk('listings/sorted', async (sortType) => {
-    const response = await fetch(`https://localhost:7049/Stats?sortType=${sortType}`);
+export const fetchSortedListings = createAsyncThunk('listings/sorted', async (sortType, accessToken) => {
+    const response = await fetch(`https://localhost:7049/Stats?sortType=${sortType}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
 
 //  ---------------------------------------------------- STATS ----------------------------------------------------
-export const fetchAverageNightsPerMonth = createAsyncThunk('listings/averageNightsPerMonth', async () => {
-    const response = await fetch(`https://localhost:7049/Listings/stats/average-nights-per-month`);
+export const fetchAverageNightsPerMonth = createAsyncThunk('listings/averageNightsPerMonth', async (accessToken) => {
+    const response = await fetch(`https://localhost:7049/Listings/stats/average-nights-per-month`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
-export const fetchTotalRevenue = createAsyncThunk('listings/fetchTotalRevenue', async (neighbourhood) => {
-    const response = await fetch(`https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=${neighbourhood}`);
-    return response.json();
-});
+export const fetchTotalRevenue = createAsyncThunk(
+    'listings/fetchTotalRevenue',
+    async ({ neighbourhood, accessToken }) => {
+        const response = await fetch(`https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=${neighbourhood}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        return response.json();
+    }
+);
 
-export const fetchAverageRating = createAsyncThunk('listings/averageRating', async () => {
-    const response = await fetch(`https://localhost:7049/Listings/stats/average-rating-per-neighbourhood`);
+export const fetchAverageRating = createAsyncThunk('listings/averageRating', async (accessToken) => {
+    const response = await fetch(`https://localhost:7049/Listings/stats/average-rating-per-neighbourhood`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
     return response.json();
 });
 
@@ -70,6 +110,7 @@ export const listingsSlice = createSlice({
         },
         listingDetails: null,
         sortedListings: [],
+        accessToken: null,
         status: 'idle',
         error: null
     },
@@ -94,6 +135,9 @@ export const listingsSlice = createSlice({
             state.selectedFilters.minPrice = null;
             state.filteredListings = []
         },
+        setAccessToken: (state, action) => {
+            state.accessToken = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -180,5 +224,5 @@ export const listingsSlice = createSlice({
 });
 
 
-export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters, setPriceFilter } = listingsSlice.actions;
+export const { setAllListingsGeoLocation, setSelectedNeighbourhood, setSelectedReview, resetFilters, setPriceFilter, setAccessToken } = listingsSlice.actions;
 export default listingsSlice.reducer;

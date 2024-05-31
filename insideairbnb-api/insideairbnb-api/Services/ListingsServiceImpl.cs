@@ -8,6 +8,7 @@ using insideairbnb_api.Data.Repositories;
 using System.Globalization;
 using insideairbnb_api.Controllers;
 
+
 namespace insideairbnb_api.Services
 {
     public class ListingsServiceImpl : IListingsService

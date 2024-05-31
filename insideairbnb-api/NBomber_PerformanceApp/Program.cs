@@ -10,22 +10,15 @@ using NBomber.Http;
 
             var scenario = Scenario.Create("NBomberLoadTester", async context =>
             {
-                var response = await httpClient.GetAsync("https://localhost:7049/Listings/geoinfo");
+                //var response = await httpClient.GetAsync("https://localhost:7049/Listings/geoinfo");
+                var response = await httpClient.GetAsync("https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=Bourse");
                 return response.IsSuccessStatusCode ? Response.Ok() : Response.Fail();
             })
                 .WithoutWarmUp()
                 .WithLoadSimulations(
-                    // Simulation.Inject(
-                    //     rate: 50, // Reduce the initial load rate
-                    //     interval: TimeSpan.FromSeconds(1),
-                    //     during: TimeSpan.FromSeconds(5)), // Shorten the duration
-                    // Simulation.RampingInject(
-                    //     rate: 500, // Increase gradually
-                    //     interval: TimeSpan.FromSeconds(1),
-                    //     during: TimeSpan.FromSeconds(30)),
                     Simulation.RampingInject(
-                        rate: 22, // Increase gradually
-                        interval: TimeSpan.FromSeconds(1),
+                        rate: 40, 
+                        interval: TimeSpan.FromSeconds(2),
                         during: TimeSpan.FromSeconds(30))
                 );
 

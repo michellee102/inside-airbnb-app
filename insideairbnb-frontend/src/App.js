@@ -4,11 +4,14 @@ import Navbar from './components/Navbar';
 import DetailedInfo from './components/DetailedInfo';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
+import { fetchListings, fetchNeighbourhoods, setAccessToken } from './redux/slices/listingsSlice';
+import { useDispatch } from 'react-redux';
 
 
 function App() {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useState(null);
+  const dispatch = useDispatch();
 
 
 
@@ -20,34 +23,13 @@ function App() {
 
         if (accessToken) {
 
-
+          dispatch(setAccessToken(accessToken));
           console.log("Access token:", accessToken);
 
 
-          const response = await fetch('https://localhost:7049/Listings/authentication', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          });
+          dispatch(fetchListings(accessToken))
+          dispatch(fetchNeighbourhoods(accessToken))
 
-
-          if (response.ok) {
-            console.log('Authenticated the user!:', response.status);
-            const response2 = await fetch('https://localhost:7049/Listings/authorize', {
-              headers: {
-                Authorization: `Bearer ${accessToken}`
-              }
-            });
-
-            if (response2.ok) {
-              console.log('Authorized the user!:', response2.status);
-            }
-          } else {
-
-            console.error('Failed to authenticate', response.status);
-          }
-        } else {
-          console.log('No token');
         }
       } catch (error) {
         console.error('Error fetching permissions:', error);
