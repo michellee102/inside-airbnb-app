@@ -21,7 +21,7 @@ export const fetchListings = createAsyncThunk('listings/fetchListings', async (a
     return response.json();
 });
 
-export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async (neighbourhood, accessToken) => {
+export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async ({ neighbourhood, accessToken }) => {
     const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
@@ -30,22 +30,29 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
     return response.json();
 });
 
-export const fetchListingsByFilters = createAsyncThunk('listings/filters', async (filters, accessToken) => {
+// Fetch listings by filters
+export const fetchListingsByFilters = createAsyncThunk('listings/filters', async ({ filters, accessToken }) => {
     const { neighbourhood, review, maxPrice, minPrice } = filters;
     const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
     const reviewParam = review ? `&reviewScore=${review}` : '';
     const maxPriceParam = maxPrice ? `&maxPrice=${maxPrice}` : '';
     const minPriceParam = minPrice ? `&minPrice=${minPrice}` : '';
     const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${minPriceParam}${maxPriceParam}`;
+
     const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
     });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch listings');
+    }
+
     return response.json();
 });
 
-export const fetchListingDetails = createAsyncThunk('listings/details', async (listingId, accessToken) => {
+export const fetchListingDetails = createAsyncThunk('listings/details', async ({ listingId, accessToken }) => {
     const response = await fetch(`https://localhost:7049/Listings/${listingId}/details`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
@@ -201,6 +208,7 @@ export const listingsSlice = createSlice({
                     return;
                 }
                 const filteredIds = action.payload;
+                console.log(filteredIds)
                 state.filteredListings = state.allListingsGeoLocation.filter(listing => filteredIds.includes(listing.id));
             })
             .addCase(fetchListingsByFilters.rejected, (state, action) => {

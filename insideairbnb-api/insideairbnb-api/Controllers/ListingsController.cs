@@ -15,7 +15,7 @@ namespace insideairbnb_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
+    [Authorize]
     public class ListingsController : ControllerBase
     {
         private readonly IListingsService _listingsService;
@@ -28,7 +28,7 @@ namespace insideairbnb_api.Controllers
         }
 
         [HttpGet("geoinfo")]
-        [Authorize]
+ 
         public async Task<IActionResult> GetAllListings()
         {
             List<GeoLocationInfo> listings;
@@ -92,13 +92,13 @@ namespace insideairbnb_api.Controllers
             return Ok(listingInfo);
         }
 
-        [HttpGet("authentication")]
-        [Authorize]
-        public ActionResult<string> GetAuthentication()
-        {
-            const string authenticated = "You have been authenticated!";
-            return Ok(authenticated);
-        }
+        //[HttpGet("authentication")]
+        //[Authorize]
+        //public ActionResult<string> GetAuthentication()
+        //{
+        //    const string authenticated = "You have been authenticated!";
+        //    return Ok(authenticated);
+        //}
 
         //[HttpGet("authorize")]
         //[Authorize("read:stats")]

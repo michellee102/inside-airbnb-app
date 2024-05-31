@@ -1,6 +1,8 @@
-﻿using insideairbnb_api.Data;
+﻿
+using insideairbnb_api.Data;
 using insideairbnb_api.DTOs;
 using insideairbnb_api.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -9,6 +11,7 @@ namespace insideairbnb_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class StatsController : ControllerBase
     {
 

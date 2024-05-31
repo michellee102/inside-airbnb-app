@@ -20,35 +20,38 @@ function FilterListings() {
 
     const handleNeighbourhoodClick = (neighbourhood) => {
         dispatch(setSelectedNeighbourhood(neighbourhood))
-        dispatch(fetchListingsByFilters({
+        const filters = {
             neighbourhood: neighbourhood,
             review: selectedFilters.selectedReview,
             minPrice: selectedFilters.minPrice,
-            maxPrice: selectedFilters.maxPrice,
-        }, accessToken))
+            maxPrice: selectedFilters.maxPrice
+        };
+        dispatch(fetchListingsByFilters({ filters, accessToken }));
     }
 
     const handleReviewClick = (review) => {
         dispatch(setSelectedReview(review))
-        dispatch(fetchListingsByFilters({
+        const filters = {
             neighbourhood: selectedFilters.selectedNeighbourhood,
             review: review,
             minPrice: selectedFilters.minPrice,
-            maxPrice: selectedFilters.maxPrice,
-
-        }, accessToken))
+            maxPrice: selectedFilters.maxPrice
+        };
+        dispatch(fetchListingsByFilters({ filters, accessToken }));
     }
 
     const handlePriceSubmit = () => {
         dispatch(setPriceFilter({ minPrice, maxPrice }))
-
-        dispatch(fetchListingsByFilters({
+        const filters = {
             neighbourhood: selectedFilters.selectedNeighbourhood,
             review: selectedFilters.selectedReview,
             minPrice: minPrice,
             maxPrice: maxPrice
-        }, accessToken))
+        };
+        dispatch(fetchListingsByFilters({ filters, accessToken }));
     }
+
+
 
     const handleResetFilters = () => {
         setMaxPrice('')
