@@ -60,11 +60,11 @@ function WorldMap() {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#51bbd6',
+                'rgba(81, 187, 214, 0.5)', // Light blue with 80% opacity
                 100,
-                '#f1f075',
+                'rgba(107, 150, 174, 0.5)', // Light grey with 80% opacity
                 750,
-                '#f28cb1'
+                'rgba(87, 123, 142, 0.5)' // Dark grey with 80% opacity
             ],
             'circle-radius': [
                 'step',
@@ -77,6 +77,7 @@ function WorldMap() {
             ]
         }
     };
+
 
     const CLUSTER_COUNT_LAYER = {
         id: 'cluster-count',
