@@ -29,7 +29,11 @@ function BarChart({ labels, dataValues, title, xTitle, yTitle, dollarSignTooltip
                 display: true,
                 text: title
             },
+            legend: {
+                display: false, // Correctly placed legend configuration
+            },
         },
+
         scales: {
             x: {
                 title: {

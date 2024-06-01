@@ -4,41 +4,30 @@ import Navbar from './components/Navbar';
 import DetailedInfo from './components/DetailedInfo';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
-import { fetchListings, fetchNeighbourhoods, setAccessToken } from './redux/slices/listingsSlice';
+import { fetchListings,  setAccessToken } from './redux/slices/listingsSlice';
+import { fetchNeighbourhoods } from './redux/slices/neighbourhoodSlice';
 import { useDispatch } from 'react-redux';
-
 
 function App() {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useState(null);
   const dispatch = useDispatch();
 
-
-
   const checkPermissions = async () => {
     if (isAuthenticated) {
       try {
         const accessToken = await getAccessTokenSilently();
         setToken(accessToken);
-
         if (accessToken) {
-
           dispatch(setAccessToken(accessToken));
-          console.log("Access token:", accessToken);
-
-
           dispatch(fetchListings(accessToken))
           dispatch(fetchNeighbourhoods(accessToken))
-
         }
       } catch (error) {
         console.error('Error fetching permissions:', error);
       }
     }
   };
-
-
-
 
   useEffect(() => {
     checkPermissions();
@@ -50,7 +39,6 @@ function App() {
 
       {isLoading && !isAuthenticated && <div> loading....</div>}
 
-      {/* TODO: Check hier of user admin is en geef dit door als prop aan DetailedInfo */}
       {isAuthenticated && !isLoading && (
         <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
           <div className='col-8'>
@@ -73,7 +61,6 @@ function App() {
         </div>
       )}
     </div>
-
   );
 }
 

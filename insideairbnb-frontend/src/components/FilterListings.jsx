@@ -11,7 +11,7 @@ function FilterListings() {
     const [maxPrice, setMaxPrice] = useState('');
     const [minPrice, setMinPrice] = useState('');
     const selectedFilters = useSelector(state => state.listings.selectedFilters)
-    const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods)
+    const neighbourhoodNames = useSelector(state => state.neighbourhoods.neighbourhoods)
     const totalListingsAmount = useSelector(state => state.listings.allListingsGeoLocation.length)
     const filteredListingsAmount = useSelector(state => state.listings.filteredListings.length)
     const accessToken = useSelector(state => state.listings.accessToken)

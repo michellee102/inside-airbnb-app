@@ -1,15 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { accessToken } from 'mapbox-gl';
+import { generateFetchUrl } from '../../helpers/GenerateFetchUrl';
 
-
-export const fetchNeighbourhoods = createAsyncThunk('listings/fetchNeighbourhoods', async (accessToken) => {
-    const response = await fetch('https://localhost:7049/Neighbourhoods', {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    return await response.json();
-});
 
 
 export const fetchListings = createAsyncThunk('listings/fetchListings', async (accessToken) => {
@@ -32,14 +23,9 @@ export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchList
 
 // Fetch listings by filters
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async ({ filters, accessToken }) => {
-    const { neighbourhood, review, maxPrice, minPrice } = filters;
-    const neighbourhoodParam = neighbourhood ? `neighbourhood=${neighbourhood}` : '';
-    const reviewParam = review ? `&reviewScore=${review}` : '';
-    const maxPriceParam = maxPrice ? `&maxPrice=${maxPrice}` : '';
-    const minPriceParam = minPrice ? `&minPrice=${minPrice}` : '';
-    const url = `https://localhost:7049/Listings/filter?${neighbourhoodParam}${reviewParam}${minPriceParam}${maxPriceParam}`;
 
-    const response = await fetch(url, {
+
+    const response = await fetch(generateFetchUrl('Listings/filter', filters), {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -71,36 +57,6 @@ export const fetchSortedListings = createAsyncThunk('listings/sorted', async (so
 });
 
 
-//  ---------------------------------------------------- STATS ----------------------------------------------------
-export const fetchAverageNightsPerMonth = createAsyncThunk('listings/averageNightsPerMonth', async (accessToken) => {
-    const response = await fetch(`https://localhost:7049/Listings/stats/average-nights-per-month`, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    return response.json();
-});
-
-export const fetchTotalRevenue = createAsyncThunk(
-    'listings/fetchTotalRevenue',
-    async ({ neighbourhood, accessToken }) => {
-        const response = await fetch(`https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=${neighbourhood}`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-        return response.json();
-    }
-);
-
-export const fetchAverageRating = createAsyncThunk('listings/averageRating', async (accessToken) => {
-    const response = await fetch(`https://localhost:7049/Listings/stats/average-rating-per-neighbourhood`, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    return response.json();
-});
 
 
 export const listingsSlice = createSlice({
@@ -108,7 +64,6 @@ export const listingsSlice = createSlice({
     initialState: {
         allListingsGeoLocation: [],
         filteredListings: [],
-        neighbourhoods: [],
         selectedFilters: {
             selectedNeighbourhood: null,
             selectedReview: null,
@@ -207,26 +162,15 @@ export const listingsSlice = createSlice({
                     state.filteredListings = [];
                     return;
                 }
-                const filteredIds = action.payload;
-                console.log(filteredIds)
-                state.filteredListings = state.allListingsGeoLocation.filter(listing => filteredIds.includes(listing.id));
+
+                state.filteredListings = action.payload;
             })
             .addCase(fetchListingsByFilters.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
 
-            .addCase(fetchNeighbourhoods.pending, (state, action) => {
-                state.status = 'loading';
-            })
-            .addCase(fetchNeighbourhoods.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.neighbourhoods = action.payload;
-            })
-            .addCase(fetchNeighbourhoods.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            });
+
     },
 
 });

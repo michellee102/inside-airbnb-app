@@ -26,6 +26,12 @@ function WorldMap() {
     const LISTINGS_CIRCLE_RADIUS = 2;
     const accessToken = useSelector(state => state.listings.accessToken)
 
+
+    useEffect(() => {
+        console.log("popop" + popupInfo)
+    }
+        , [popupInfo]);
+
     const DATA_LAYER = {
         id: 'data',
         type: 'fill',
@@ -107,8 +113,10 @@ function WorldMap() {
     useEffect(() => {
         const isAnyFilterSelected = Object.values(selectedFilters).some(value => value !== null);
         if (isAnyFilterSelected) {
+            console.log("filtered listings" + filteredListings)
             updateMap(filteredListings);
         } else if (listings.length > 0) {
+            console.log("listings" + listings)
             updateMap(listings);
         }
     }, [listings, filteredListings]);
@@ -139,7 +147,8 @@ function WorldMap() {
 
     const handlePointClick = event => {
         if (event.features[0]) {
-            dispatch(fetchListingDetails(event.features[0].properties.id, accessToken))
+            const listingId = event.features[0].properties.id
+            dispatch(fetchListingDetails({ listingId, accessToken }))
         }
     };
 

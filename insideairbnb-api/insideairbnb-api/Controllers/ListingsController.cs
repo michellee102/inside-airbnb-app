@@ -15,7 +15,7 @@ namespace insideairbnb_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class ListingsController : ControllerBase
     {
         private readonly IListingsService _listingsService;
@@ -45,38 +45,38 @@ namespace insideairbnb_api.Controllers
         [HttpGet("filter")]
         public async Task<IActionResult> GetListingsFiltered(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
-            List<string> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore, minPrice, maxPrice);
+            List<GeoLocationInfo> listings = await _listingsService.GetListingsFiltered(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(listings);
         }
 
-        [HttpGet("stats/top5")]
-        public async Task<IActionResult> GetTop5Properties(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
-        {
-            Dictionary<string, int> propertystats = await _listingsService.GetStatistics(neighbourhood, reviewScore, minPrice, maxPrice);
-            return Ok(propertystats);
-        }
+        //[HttpGet("stats/top5")]
+        //public async Task<IActionResult> GetTop5Properties(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
+        //{
+        //    Dictionary<string, int> propertystats = await _listingsService.GetStatistics(neighbourhood, reviewScore, minPrice, maxPrice);
+        //    return Ok(propertystats);
+        //}
 
         [HttpGet("stats/average-nights-per-month")]
-        [Authorize("read:stats")]
-        public async Task<IActionResult> GetAverageNightsPerMonth()
+        //[Authorize("read:stats")]
+        public async Task<IActionResult> GetAverageNightsPerMonth(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
-            var stats = await _listingsService.GetAverageNightsPerMonth();
+            var stats = await _listingsService.GetAverageNightsPerMonth(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(stats);
         }
 
-        [HttpGet("stats/revenue-per-neighbourhood-per-month")]
-        [Authorize("read:stats")]
-        public async Task<IActionResult> GetTotalRevenuePerNeighbourhoodPerMonth(string neighbourhood)
+        [HttpGet("stats/revenue-per-month")]
+        //[Authorize("read:stats")]
+        public async Task<IActionResult> GetTotalRevenuePerNeighbourhoodPerMonth(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
-            var stats = await _listingsService.GetTotalRevenuePerNeighbourhoodPerMonth(neighbourhood);
+            var stats = await _listingsService.GetTotalRevenuePerMonth(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(stats);
         }
 
-        [HttpGet("stats/average-rating-per-neighbourhood")]
-        [Authorize("read:stats")]
-        public async Task<IActionResult> GetAverageRatingPerNeighbourhood()
+        [HttpGet("stats/average-rating")]
+        //[Authorize("read:stats")]
+        public async Task<IActionResult> GetAverageRatingPerNeighbourhood(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
-            var stats = await _listingsService.GetAverageRatingPerNeighbourhood();
+            var stats = await _listingsService.GetOverallAverageRating(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(stats);
         }
 

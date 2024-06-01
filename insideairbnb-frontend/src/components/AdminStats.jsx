@@ -3,112 +3,123 @@ import { Button, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import BarChart from './BarChart';
 import { useEffect, useState } from 'react';
-import { fetchAverageNightsPerMonth, fetchTotalRevenue, fetchAverageRating } from '../redux/slices/listingsSlice';
+import { fetchAverageNightsPerMonth, fetchTotalRevenue, fetchAverageRating } from '../redux/slices/statsSlice';
+import DoughnutChart from './DoughnutChart';
 
 function SortComponent() {
     const dispatch = useDispatch();
-    const neighbourhoodNames = useSelector(state => state.listings.neighbourhoods);
 
-    const [selectedNeighbourhood, setSelectedNeighbourhood] = useState(null);
+    const selectedNeighbourhood = useSelector(state => state.listings.selectedFilters.selectedNeighbourhood);
     const accessToken = useSelector(state => state.listings.accessToken);
+    const filters = useSelector(state => state.listings.selectedFilters);
 
     const [showStatistics, setShowStatistics] = useState(false);
 
-    const [months, setMonths] = useState([]);
-    const [averageNights, setAverageNights] = useState([]);
-    const [loadingNights, setLoadingNights] = useState(false);
-    const [nightsFetched, setNightsFetched] = useState(false);
+    const [monthsData, setMonthsData] = useState({
+        months: [],
+        averageNights: [],
+        loading: false,
+        fetched: false,
+    });
 
-    const [totalRevenue, setTotalRevenue] = useState([]);
-    const [totalRevenueMonths, setTotalRevenueMonths] = useState([]);
-    const [loadingRevenue, setLoadingRevenue] = useState(false);
-    const [revenueFetched, setRevenueFetched] = useState(false);
+    const [revenueData, setRevenueData] = useState({
+        totalRevenueMonths: [],
+        totalRevenue: [],
+        loading: false,
+        fetched: false,
+    });
 
-    const [neighbourhoods, setNeighbourhoods] = useState([]);
-    const [averageRatings, setAverageRatings] = useState([]);
-    const [loadingRatings, setLoadingRatings] = useState(false);
-    const [ratingsFetched, setRatingsFetched] = useState(false);
+    const [ratingData, setRatingData] = useState({
+        averageRating: [],
+        loading: false,
+        fetched: false,
+    });
 
-    useEffect(() => {
-        if (neighbourhoodNames.length > 0) {
-            setSelectedNeighbourhood(neighbourhoodNames[0].neighbourhoodname);
-        }
-    }, [neighbourhoodNames]);
+    const [previousFilters, setPreviousFilters] = useState({});
 
-    useEffect(() => {
-        if (accessToken && showStatistics && !nightsFetched) {
-            setLoadingNights(true);
-            dispatch(fetchAverageNightsPerMonth(accessToken))
-                .then((data) => {
-                    if (data.payload) {
-                        const monthsArray = data.payload.map((item) => item.month);
-                        const averageNightsArray = data.payload.map((item) => item.averageNights);
-                        setMonths(monthsArray);
-                        setAverageNights(averageNightsArray);
-                        setNightsFetched(true);
-                    } else {
-                        console.error("fetchAverageNightsPerMonth returned no payload", data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching average nights per month:", error);
-                })
-                .finally(() => {
-                    setLoadingNights(false);
-                });
-        }
-    }, [accessToken, showStatistics, nightsFetched, dispatch]);
+    const haveFiltersChanged = (currentFilters, previousFilters) => {
+        return JSON.stringify(currentFilters) !== JSON.stringify(previousFilters);
+    };
 
     useEffect(() => {
-        if (selectedNeighbourhood && accessToken && showStatistics && !revenueFetched) {
-            setLoadingRevenue(true);
-            dispatch(fetchTotalRevenue({ neighbourhood: selectedNeighbourhood, accessToken }))
-                .then((data) => {
-                    if (data.payload) {
-                        const monthsArray = data.payload.map((item) => item.month);
-                        const totalRev = data.payload.map((item) => item.totalRevenue);
-                        setTotalRevenueMonths(monthsArray);
-                        setTotalRevenue(totalRev);
-                        setRevenueFetched(true);
-                    } else {
-                        console.error("fetchTotalRevenue returned no payload", data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching total revenue:", error);
-                })
-                .finally(() => {
-                    setLoadingRevenue(false);
-                });
+        if (accessToken && showStatistics) {
+            if (!monthsData.fetched || haveFiltersChanged(filters, previousFilters)) {
+                setMonthsData(prevData => ({ ...prevData, loading: true }));
+                dispatch(fetchAverageNightsPerMonth({ filters, accessToken }))
+                    .then((data) => {
+                        if (data.payload) {
+                            const monthsArray = data.payload.map((item) => item.month);
+                            const averageNightsArray = data.payload.map((item) => item.averageNights);
+                            setMonthsData({
+                                months: monthsArray,
+                                averageNights: averageNightsArray,
+                                loading: false,
+                                fetched: true,
+                            });
+                            setPreviousFilters(filters);
+                        } else {
+                            console.error("fetchAverageNightsPerMonth returned no payload", data);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching average nights per month:", error);
+                    });
+            }
         }
-    }, [selectedNeighbourhood, accessToken, showStatistics, revenueFetched, dispatch]);
+    }, [accessToken, showStatistics, monthsData.fetched, filters, previousFilters, dispatch]);
 
     useEffect(() => {
-        if (accessToken && showStatistics && !ratingsFetched) {
-            setLoadingRatings(true);
-            dispatch(fetchAverageRating(accessToken))
-                .then((data) => {
-                    if (data.payload) {
-                        const neighbourhoodsForRatings = data.payload.map((item) => item.neighbourhood);
-                        const ratings = data.payload.map((item) => item.averageRating);
-                        setNeighbourhoods(neighbourhoodsForRatings);
-                        setAverageRatings(ratings);
-                        setRatingsFetched(true);
-                    } else {
-                        console.error("fetchAverageRating returned no payload", data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching average ratings:", error);
-                })
-                .finally(() => {
-                    setLoadingRatings(false);
-                });
+        if (accessToken && showStatistics) {
+            if (!revenueData.fetched || haveFiltersChanged(filters, previousFilters)) {
+                setRevenueData(prevData => ({ ...prevData, loading: true }));
+                dispatch(fetchTotalRevenue({ filters, accessToken }))
+                    .then((data) => {
+                        if (data.payload) {
+                            const monthsArray = data.payload.map((item) => item.month);
+                            const totalRev = data.payload.map((item) => item.totalRevenue);
+                            setRevenueData({
+                                totalRevenueMonths: monthsArray,
+                                totalRevenue: totalRev,
+                                loading: false,
+                                fetched: true,
+                            });
+                            setPreviousFilters(filters);
+                        } else {
+                            console.error("fetchTotalRevenue returned no payload", data);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching total revenue:", error);
+                    });
+            }
         }
-    }, [accessToken, showStatistics, ratingsFetched, dispatch]);
+    }, [selectedNeighbourhood, accessToken, showStatistics, revenueData.fetched, filters, previousFilters, dispatch]);
+
+    useEffect(() => {
+        if (accessToken && showStatistics) {
+            if (!ratingData.fetched || haveFiltersChanged(filters, previousFilters)) {
+                setRatingData(prevData => ({ ...prevData, loading: true }));
+                dispatch(fetchAverageRating({ filters, accessToken }))
+                    .then(({ payload }) => {
+                        if (payload) {
+                            setRatingData({
+                                averageRating: [payload.rating],
+                                loading: false,
+                                fetched: true,
+                            });
+                            setPreviousFilters(filters);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Failed to fetch average rating:", error);
+                    });
+            }
+        }
+    }, [accessToken, filters, showStatistics, dispatch]);
+
 
     return (
-        <div className='container ' style={{ maxHeight: 'calc(100vh - 310px)', overflowY: 'auto' }}>
+        <div className='container ' style={{ maxHeight: 'calc(100vh - 330px)', overflowY: 'auto' }}>
             <div className='container d-flex flex-column '>
                 <Button onClick={() => setShowStatistics(!showStatistics)} className="mb-3 btn-info mt-2">
                     {showStatistics ? 'Hide Statistics' : 'Show Statistics'}
@@ -119,10 +130,10 @@ function SortComponent() {
                         <div className="row">
                             <div className="col d-flex flex-column justify-content-center align-items-center">
                                 <h4>Average booked nights per month</h4>
-                                {loadingNights ? (
+                                {monthsData.loading ? (
                                     <Spinner animation="border" />
                                 ) : (
-                                    <BarChart labels={months} dataValues={averageNights} title="Average booked nights per month" />
+                                    <BarChart labels={monthsData.months} dataValues={monthsData.averageNights} title="Average booked nights per month" />
                                 )}
                             </div>
                         </div>
@@ -130,32 +141,17 @@ function SortComponent() {
                         <hr />
                         {/* Second BarChart */}
                         <div className='d-flex flex-column justify-content-center align-items-center p-0 m-0'>
-                            <h4>Total revenue per neighbourhood per month</h4>
-                            <Dropdown className='p-2'>
-                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                    {selectedNeighbourhood || 'Neighbourhood'}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className='ScrollDropdown'>
-                                    {neighbourhoodNames.map((neighbourhood) => (
-                                        <Dropdown.Item
-                                            className='text-dark'
-                                            key={neighbourhood.neighbourhoodname}
-                                            onClick={() => setSelectedNeighbourhood(neighbourhood.neighbourhoodname)}
-                                        >
-                                            {neighbourhood.neighbourhoodname}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
+                            <h4>Total revenue per month</h4>
+
                         </div>
                         {/* Second BarChart */}
                         <div className="row">
                             <div className="col">
-                                {loadingRevenue ? (
+                                {revenueData.loading ? (
                                     <Spinner animation="border" />
                                 ) : (
-                                    <BarChart labels={totalRevenueMonths} dataValues={totalRevenue}
-                                        title={`Revenue in ${selectedNeighbourhood} per month`}
+                                    <BarChart labels={revenueData.totalRevenueMonths} dataValues={revenueData.totalRevenue}
+                                        title={`Revenue in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} per month`}
                                         dollarSignTooltip={true}
                                     />
                                 )}
@@ -164,14 +160,14 @@ function SortComponent() {
                         {/* Divider line */}
                         <hr />
                         {/* Third BarChart */}
-                        <div className="row">
-                            <div className="col d-flex flex-column justify-content-center align-items-center">
-                                <h4>Average ratings per neighbourhood</h4>
-                                {loadingRatings ? (
+                        <div className="row align-items-center justify-content-center">
+                            <div className="col-md-auto d-flex flex-column justify-content-center align-items-center">
+                                <h4 className='p-0 m-0'>Average rating</h4>
+                                {ratingData.loading ? (
                                     <Spinner animation="border" />
                                 ) : (
-                                    <BarChart labels={neighbourhoods} dataValues={averageRatings} title="Average Ratings" yTitle="Amount of stars"
-                                        xAxisLabelSize={12}
+                                    <DoughnutChart labels={["Average rating"]} dataValues={ratingData.averageRating}
+                                        title={`Average star rating out of 5 in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} `}
                                     />
                                 )}
                             </div>

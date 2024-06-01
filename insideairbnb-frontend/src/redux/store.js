@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import listingsReducer from './slices/listingsSlice';
+import neighbourhoodReducer from './slices/neighbourhoodSlice';
 
 const store = configureStore({
     reducer: {
-        listings: listingsReducer
+        listings: listingsReducer,
+        neighbourhoods: neighbourhoodReducer,
     },
 })
 

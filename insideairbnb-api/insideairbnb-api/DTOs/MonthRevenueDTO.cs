@@ -1,8 +1,8 @@
 ﻿namespace insideairbnb_api.DTOs
 {
-    public class NeighbourhoodMonthRevenueDTO
+    public class MonthRevenueDTO
     {
-        public string Neighbourhood { get; set; }
+ 
         public string Month { get; set; }
         public decimal TotalRevenue { get; set; }
     }
