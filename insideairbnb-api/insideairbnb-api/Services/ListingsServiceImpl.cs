@@ -133,6 +133,7 @@ namespace insideairbnb_api.Services
         {
             // Apply filters to the listings
             var filteredListings = ApplyFilters(neighbourhood, reviewScore, minPrice, maxPrice);
+            _logger.LogInformation("Filtered Listings: " + filteredListings.Count());
 
             // Join the filtered listings with the calendar data
             var result = await _dataContext.DetailedCalendarParijsConverteds
@@ -149,6 +150,7 @@ namespace insideairbnb_api.Services
                 })
                 .ToListAsync();
 
+      
             return result.Select(r => new MonthRevenueDTO
             {
                 Month = $"{r.Year}-{r.Month:00}",
@@ -165,10 +167,17 @@ namespace insideairbnb_api.Services
             var filteredListings = ApplyFilters(neighbourhood, reviewScore, minPrice, maxPrice);
 
             // Calculate the average rating
-            var result = await filteredListings
+            var ratings = await filteredListings
                 .Where(listing => listing.ReviewScoresRating.HasValue)
-  .Select(listing => reviewScore == 5 ? listing.ReviewScoresRating.Value / 10 : listing.ReviewScoresRating.Value / 100)  // Adjust the division based on reviewScore value
-                .AverageAsync();
+                .Select(listing => listing.ReviewScoresRating.Value / 100)  // Adjust the division based on reviewScore value
+                .ToListAsync();
+
+            double result = 0;
+
+            if (ratings.Count > 0)
+            {
+                result = ratings.Average();
+            }
 
             // Round the average rating to 2 decimal places
             var averageRating = Math.Round(result, 2);
@@ -191,6 +200,7 @@ namespace insideairbnb_api.Services
 
             return dto;
         }
+
 
 
 

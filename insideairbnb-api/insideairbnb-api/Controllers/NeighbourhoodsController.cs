@@ -8,7 +8,7 @@ namespace insideairbnb_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class NeighbourhoodsController : ControllerBase
     {
         private readonly InsideAirBnb2024Context _dataContext;

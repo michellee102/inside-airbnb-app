@@ -1,4 +1,3 @@
-
 import Dropdown from 'react-bootstrap/Dropdown';
 import CloseButton from 'react-bootstrap/CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,8 +20,8 @@ function FilterListings() {
     const handleNeighbourhoodClick = (neighbourhood) => {
         dispatch(setSelectedNeighbourhood(neighbourhood))
         const filters = {
-            neighbourhood: neighbourhood,
-            review: selectedFilters.selectedReview,
+            selectedNeighbourhood: neighbourhood,
+            selectedReview: selectedFilters.selectedReview,
             minPrice: selectedFilters.minPrice,
             maxPrice: selectedFilters.maxPrice
         };
@@ -32,8 +31,8 @@ function FilterListings() {
     const handleReviewClick = (review) => {
         dispatch(setSelectedReview(review))
         const filters = {
-            neighbourhood: selectedFilters.selectedNeighbourhood,
-            review: review,
+            selectedNeighbourhood: selectedFilters.selectedNeighbourhood,
+            selectedReview: review,
             minPrice: selectedFilters.minPrice,
             maxPrice: selectedFilters.maxPrice
         };
@@ -43,8 +42,9 @@ function FilterListings() {
     const handlePriceSubmit = () => {
         dispatch(setPriceFilter({ minPrice, maxPrice }))
         const filters = {
-            neighbourhood: selectedFilters.selectedNeighbourhood,
-            review: selectedFilters.selectedReview,
+
+            selectedNeighbourhood: selectedFilters.selectedNeighbourhood,
+            selectedReview: selectedFilters.selectedReview,
             minPrice: minPrice,
             maxPrice: maxPrice
         };
@@ -52,13 +52,11 @@ function FilterListings() {
     }
 
 
-
     const handleResetFilters = () => {
         setMaxPrice('')
         setMinPrice('')
         dispatch(resetFilters())
     }
-
 
 
     return (

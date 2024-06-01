@@ -5,7 +5,9 @@ import { generateFetchUrl } from '../../helpers/GenerateFetchUrl';
 
 
 export const fetchAverageNightsPerMonth = createAsyncThunk('statistics/fetchAverageNightsPerMonth', async ({ filters, accessToken }) => {
-    const response = await fetch(generateFetchUrl('Listings/stats/average-nights-per-month', filters), {
+    const url = generateFetchUrl('Listings/stats/average-nights-per-month', filters);
+    console.log("url", url)
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }

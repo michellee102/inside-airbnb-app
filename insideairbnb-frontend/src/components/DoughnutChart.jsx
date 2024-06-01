@@ -5,9 +5,9 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(Title, Tooltip, DoughnutController, ArcElement, Legend);
 
 function getColorBasedOnValue(value) {
-    if (value > 3.5) {
+    if (value >= 4.5) {
         return '#8fb935';
-    } else if (value > 2.5) {
+    } else if (value >= 3.5) {
         return '#e09c3b';
     } else {
         return '#e64747';
@@ -43,19 +43,19 @@ function DoughnutChart({ labels, dataValues, title }) {
                         const { data } = chart;
                         return [
                             {
-                                text: '> 3.5 (Good)',
+                                text: '>= 4.5 (Good)',
                                 fillStyle: '#8fb935',
                                 strokeStyle: '#8fb935',
                                 lineWidth: 0,
                             },
                             {
-                                text: '2.5 - 3.5 (Fair)',
+                                text: '3.5 - 4.5 (Fair)',
                                 fillStyle: '#e09c3b',
                                 strokeStyle: '#e09c3b',
                                 lineWidth: 0,
                             },
                             {
-                                text: '<= 2.5 (Poor)',
+                                text: '< 3.5 (Poor)',
                                 fillStyle: '#e64747',
                                 strokeStyle: '#e64747',
                                 lineWidth: 0,

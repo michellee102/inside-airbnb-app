@@ -1,15 +1,7 @@
-﻿using insideairbnb_api.Data;
-using insideairbnb_api.Interfaces;
-using insideairbnb_api.Models;
+﻿using insideairbnb_api.Interfaces;
 using insideairbnb_api.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using StackExchange.Profiling;
 
 namespace insideairbnb_api.Controllers
 {

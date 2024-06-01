@@ -12,20 +12,22 @@ export const fetchListings = createAsyncThunk('listings/fetchListings', async (a
     return response.json();
 });
 
-export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async ({ neighbourhood, accessToken }) => {
-    const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    return response.json();
-});
+// export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async ({ neighbourhood, accessToken }) => {
+//     console.log("jalalala", neighbourhood)
+//     const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`, {
+//         headers: {
+//             Authorization: `Bearer ${accessToken}`
+//         }
+//     });
+//     return response.json();
+// });
 
 // Fetch listings by filters
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async ({ filters, accessToken }) => {
 
-
-    const response = await fetch(generateFetchUrl('Listings/filter', filters), {
+    const url = generateFetchUrl('Listings/filter', filters)
+    console.log(url)
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -115,17 +117,7 @@ export const listingsSlice = createSlice({
                 state.error = action.error.message;
             })
 
-            .addCase(fetchListingsByNeighbourhood.pending, (state, action) => {
-                state.status = 'loading';
-            })
-            .addCase(fetchListingsByNeighbourhood.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.filteredListings = action.payload;
-            })
-            .addCase(fetchListingsByNeighbourhood.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
+
 
             .addCase(fetchListingDetails.pending, (state, action) => {
                 state.status = 'loading';

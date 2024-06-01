@@ -12,6 +12,8 @@ function SortComponent() {
     const selectedNeighbourhood = useSelector(state => state.listings.selectedFilters.selectedNeighbourhood);
     const accessToken = useSelector(state => state.listings.accessToken);
     const filters = useSelector(state => state.listings.selectedFilters);
+    const isAnyFilterSet = Object.values(filters).some(value => value)
+    const filteredListings = useSelector(state => state.listings.filteredListings);
 
     const [showStatistics, setShowStatistics] = useState(false);
 
@@ -41,6 +43,7 @@ function SortComponent() {
         return JSON.stringify(currentFilters) !== JSON.stringify(previousFilters);
     };
 
+
     useEffect(() => {
         if (accessToken && showStatistics) {
             if (!monthsData.fetched || haveFiltersChanged(filters, previousFilters)) {
@@ -48,8 +51,10 @@ function SortComponent() {
                 dispatch(fetchAverageNightsPerMonth({ filters, accessToken }))
                     .then((data) => {
                         if (data.payload) {
+                            console.log(data.payload)
                             const monthsArray = data.payload.map((item) => item.month);
                             const averageNightsArray = data.payload.map((item) => item.averageNights);
+                            console.log("averageNightsArray", averageNightsArray)
                             setMonthsData({
                                 months: monthsArray,
                                 averageNights: averageNightsArray,
@@ -102,6 +107,7 @@ function SortComponent() {
                 dispatch(fetchAverageRating({ filters, accessToken }))
                     .then(({ payload }) => {
                         if (payload) {
+
                             setRatingData({
                                 averageRating: [payload.rating],
                                 loading: false,
@@ -132,9 +138,13 @@ function SortComponent() {
                                 <h4>Average booked nights per month</h4>
                                 {monthsData.loading ? (
                                     <Spinner animation="border" />
-                                ) : (
-                                    <BarChart labels={monthsData.months} dataValues={monthsData.averageNights} title="Average booked nights per month" />
-                                )}
+                                ) :
+                                    isAnyFilterSet && filteredListings.length === 0 ? <p>No data to display</p> :
+                                        (
+
+                                            <BarChart labels={monthsData.months} dataValues={monthsData.averageNights} title="Average booked nights per month" />
+
+                                        )}
                             </div>
                         </div>
                         {/* Divider line */}
@@ -145,15 +155,17 @@ function SortComponent() {
 
                         </div>
                         {/* Second BarChart */}
-                        <div className="row">
-                            <div className="col">
+                        <div className="row align-items-center justify-content-center">
+                            <div className="col d-flex flex-column justify-content-center align-items-center ">
                                 {revenueData.loading ? (
                                     <Spinner animation="border" />
                                 ) : (
-                                    <BarChart labels={revenueData.totalRevenueMonths} dataValues={revenueData.totalRevenue}
-                                        title={`Revenue in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} per month`}
-                                        dollarSignTooltip={true}
-                                    />
+                                    isAnyFilterSet && filteredListings.length === 0 ? <p>No data to display</p> :
+                                        <BarChart labels={revenueData.totalRevenueMonths} dataValues={revenueData.totalRevenue}
+                                            title={`Revenue in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} per month`}
+                                            dollarSignTooltip={true}
+                                        />
+
                                 )}
                             </div>
                         </div>
@@ -166,9 +178,11 @@ function SortComponent() {
                                 {ratingData.loading ? (
                                     <Spinner animation="border" />
                                 ) : (
-                                    <DoughnutChart labels={["Average rating"]} dataValues={ratingData.averageRating}
-                                        title={`Average star rating out of 5 in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} `}
-                                    />
+                                    isAnyFilterSet && filteredListings.length === 0 ? <p>No data to display</p> :
+                                        <DoughnutChart labels={["Average rating"]} dataValues={ratingData.averageRating}
+                                            title={`Average star rating out of 5 in ${selectedNeighbourhood ? selectedNeighbourhood : 'Paris'} `}
+                                        />
+
                                 )}
                             </div>
                         </div>
