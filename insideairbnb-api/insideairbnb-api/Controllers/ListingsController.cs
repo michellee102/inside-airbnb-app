@@ -23,12 +23,8 @@ namespace insideairbnb_api.Controllers
  
         public async Task<IActionResult> GetAllListings()
         {
-            List<GeoLocationInfo> listings;
-            //using (MiniProfiler.Current.Step("GetAllListings"))
-            //{
-                listings = await _listingsService.GetAllGeoLocationInfo();
-            //}
 
+            List<GeoLocationInfo> listings = await _listingsService.GetAllGeoLocationInfo();
             return Ok(listings);
          
         }

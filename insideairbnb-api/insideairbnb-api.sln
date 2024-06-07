@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "insideairbnb-api", "insideairbnb-api\insideairbnb-api.csproj", "{8E036D59-4403-4DE8-B797-9AE921C77337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBomber_PerformanceApp", "NBomber_PerformanceApp\NBomber_PerformanceApp.csproj", "{9B61E123-0D07-4690-8D07-C984B6E5E878}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{8E036D59-4403-4DE8-B797-9AE921C77337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E036D59-4403-4DE8-B797-9AE921C77337}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E036D59-4403-4DE8-B797-9AE921C77337}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B61E123-0D07-4690-8D07-C984B6E5E878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B61E123-0D07-4690-8D07-C984B6E5E878}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B61E123-0D07-4690-8D07-C984B6E5E878}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B61E123-0D07-4690-8D07-C984B6E5E878}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -39,27 +39,27 @@ function App() {
 
       {isLoading && !isAuthenticated && <div> loading....</div>}
 
-      {/* {isAuthenticated && !isLoading && ( */}
-      <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
-        <div className='col-8'>
-          <div className="container d-flex h-100 p-0 m-0">
-            <WorldMap />
+      {isAuthenticated && !isLoading && (
+        <div className='container-fluid d-flex flex-grow-1 p-0 m-0'>
+          <div className='col-8'>
+            <div className="container d-flex h-100 p-0 m-0">
+              <WorldMap />
+            </div>
+          </div>
+          <div className="col-4">
+            <div className="container d-flex flex-column detailed-bg-color bg-gradient h-100" >
+              <DetailedInfo accessToken={token} />
+            </div>
           </div>
         </div>
-        <div className="col-4">
-          <div className="container d-flex flex-column detailed-bg-color bg-gradient h-100" >
-            <DetailedInfo accessToken={token} />
-          </div>
-        </div>
-      </div>
-      {/* )} */}
+      )}
 
-      {/* {!isAuthenticated && !isLoading && (
+      {!isAuthenticated && !isLoading && (
         <div className='container-fluid flex-column d-flex flex-grow-1 p-0 m-0 mt-5 align-items-center'>
           <h1 className='h2'>Insights of inside airbnb data of Paris 2024</h1>
           <p>Please login first.</p>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

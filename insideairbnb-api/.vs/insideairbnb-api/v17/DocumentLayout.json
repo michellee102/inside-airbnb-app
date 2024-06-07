@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9B61E123-0D07-4690-8D07-C984B6E5E878}|NBomber_PerformanceApp\\NBomber_PerformanceApp.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\nbomber_performanceapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B61E123-0D07-4690-8D07-C984B6E5E878}|NBomber_PerformanceApp\\NBomber_PerformanceApp.csproj|solutionrelative:nbomber_performanceapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\controllers\\listingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\controllers\\listingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\controllers\\neighbourhoodscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\controllers\\neighbourhoodscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\controllers\\listingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\controllers\\listingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|solutionrelative:insideairbnb-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8E036D59-4403-4DE8-B797-9AE921C77337}|insideairbnb-api\\insideairbnb-api.csproj|d:\\han_hbo_ict\\2023_2024\\nots\\wap\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\services\\listingsserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,48 +46,35 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\appsettings.json",
               "RelativeDocumentMoniker": "insideairbnb-api\\appsettings.json",
               "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\appsettings.json",
               "RelativeToolTip": "insideairbnb-api\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-06-04T09:09:46.557Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\NBomber_PerformanceApp\\Program.cs",
-              "RelativeDocumentMoniker": "NBomber_PerformanceApp\\Program.cs",
-              "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\NBomber_PerformanceApp\\Program.cs",
-              "RelativeToolTip": "NBomber_PerformanceApp\\Program.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T07:46:00.356Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Program.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Program.cs",
-              "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Program.cs*",
-              "RelativeToolTip": "insideairbnb-api\\Program.cs*",
-              "ViewState": "AQIAAEsAAAAAAAAAAAAAAFQAAAAAAAAA",
+              "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Program.cs",
+              "RelativeToolTip": "insideairbnb-api\\Program.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAAAFQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-03T08:49:51.911Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-03T08:49:51.911Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "StatsController.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\StatsController.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Controllers\\StatsController.cs",
@@ -103,19 +86,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "NeighbourhoodsController.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\NeighbourhoodsController.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Controllers\\NeighbourhoodsController.cs",
               "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\NeighbourhoodsController.cs",
               "RelativeToolTip": "insideairbnb-api\\Controllers\\NeighbourhoodsController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAIBJwAoAAAARAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAoAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T13:37:54.055Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "AverageRating.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\DTOs\\AverageRating.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\DTOs\\AverageRating.cs",
@@ -127,19 +110,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "IListingsService.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Interfaces\\IListingsService.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Interfaces\\IListingsService.cs",
               "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Interfaces\\IListingsService.cs",
               "RelativeToolTip": "insideairbnb-api\\Interfaces\\IListingsService.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAIBJwAwAAAA6AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAIBZwAwAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-31T14:33:38.196Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
+              "Title": "ListingsController.cs",
+              "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\ListingsController.cs",
+              "RelativeDocumentMoniker": "insideairbnb-api\\Controllers\\ListingsController.cs",
+              "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\ListingsController.cs",
+              "RelativeToolTip": "insideairbnb-api\\Controllers\\ListingsController.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-31T14:29:21.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ListingsServiceImpl.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Services\\ListingsServiceImpl.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Services\\ListingsServiceImpl.cs",
@@ -151,19 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ListingsController.cs",
-              "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\ListingsController.cs",
-              "RelativeDocumentMoniker": "insideairbnb-api\\Controllers\\ListingsController.cs",
-              "ToolTip": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Controllers\\ListingsController.cs",
-              "RelativeToolTip": "insideairbnb-api\\Controllers\\ListingsController.cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAYwEoAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-31T14:29:21.659Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "ListingRepository.cs",
               "DocumentMoniker": "D:\\HAN_HBO_ICT\\2023_2024\\NOTS\\WAP\\inside-airbnb-app\\insideairbnb-api\\insideairbnb-api\\Data\\Repositories\\ListingRepository.cs",
               "RelativeDocumentMoniker": "insideairbnb-api\\Data\\Repositories\\ListingRepository.cs",
