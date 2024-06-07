@@ -5,13 +5,10 @@ using insideairbnb_api.Interfaces;
 using insideairbnb_api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Profiling.Storage;
+using System.Net;
 using System.Security.Claims;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,15 +21,12 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:3000")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Content-Type-Options"); // Expose the header
         });
 });
 
-
-
-
 // 1. Add Authentication Services
-
 var domain = "https://" + builder.Configuration["Auth0:Domain"];
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
@@ -46,7 +40,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-
 // Define the authorization policy
 builder.Services.AddAuthorization(options =>
 {
@@ -54,12 +47,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("permissions", "read:stats"));
 });
 
-
-
-
-//builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<InsideAirBnb2024Context>(options =>
@@ -81,15 +69,7 @@ builder.Services.AddScoped<IListingsService, ListingsServiceImpl>();
 builder.Services.AddScoped<ISortStrategyFactory, SortStrategyFactory>();
 builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
-
-
 var app = builder.Build();
-
-app.UseMiniProfiler();
-// 2. Enable authentication middleware
-app.UseAuthentication();
-app.UseAuthorization();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -99,6 +79,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiniProfiler();
+
+// Add the X-Content-Type-Options header
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("Strict-Traponsport-Security", "max-age=42848228j4; includeSubDomains");
+    await next();
+});
+
+
+
+// 2. Enable authentication middleware
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowLocalhost3000");
 app.MapControllers();
