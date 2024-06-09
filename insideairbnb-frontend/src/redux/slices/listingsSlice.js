@@ -12,15 +12,6 @@ export const fetchListings = createAsyncThunk('listings/fetchListings', async (a
     return response.json();
 });
 
-// export const fetchListingsByNeighbourhood = createAsyncThunk('listings/fetchListingsByNeighbourhood', async ({ neighbourhood, accessToken }) => {
-//     console.log("jalalala", neighbourhood)
-//     const response = await fetch(`https://localhost:7049/Listings/${neighbourhood}`, {
-//         headers: {
-//             Authorization: `Bearer ${accessToken}`
-//         }
-//     });
-//     return response.json();
-// });
 
 // Fetch listings by filters
 export const fetchListingsByFilters = createAsyncThunk('listings/filters', async ({ filters, accessToken }) => {

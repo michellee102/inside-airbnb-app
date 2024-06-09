@@ -54,7 +54,7 @@ namespace insideairbnb_api.Controllers
 
         [HttpGet("stats/revenue-per-month")]
         //[Authorize("read:stats")]
-        public async Task<IActionResult> GetTotalRevenuePerNeighbourhoodPerMonth(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
+        public async Task<IActionResult> GetTotalRevenuePerMonth(string? neighbourhood, double? reviewScore, double? maxPrice, double? minPrice)
         {
             var stats = await _listingsService.GetTotalRevenuePerMonth(neighbourhood, reviewScore, minPrice, maxPrice);
             return Ok(stats);

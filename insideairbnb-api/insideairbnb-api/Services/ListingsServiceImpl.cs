@@ -101,33 +101,33 @@ namespace insideairbnb_api.Services
         //    return stats;
         //}
 
-        public async Task<List<NightsPerMonthDTO>> GetAverageNightsPerMonth(string? neighbourhood, double? reviewScore, double? minPrice, double? maxPrice)
-        {
-            // Apply filters to the listings
-            var filteredListings = ApplyFilters(neighbourhood, reviewScore, minPrice, maxPrice);
-
-            // Join the filtered listings with the calendar data
-            var result = await _dataContext.DetailedCalendarParijsConverteds
-                .AsNoTracking() // Disable change tracking for read-only operations
-                .Join(filteredListings, dc => dc.ListingId, l => l.Id, (dc, l) => dc) // Join on ListingId
-                .Where(dc => !dc.Available) // Only count booked nights
-                .GroupBy(dc => new { dc.Date.Year, dc.Date.Month })
-                .OrderBy(x => x.Key.Year)
-                .ThenBy(x => x.Key.Month)
-                .Select(g => new
-                {
-                    Year = g.Key.Year,
-                    Month = g.Key.Month,
-                    AverageNights = (double?)g.Average(dc => dc.MinimumNights)
-                })
-                .ToListAsync();
-
-            return result.Select(r => new NightsPerMonthDTO
+            public async Task<List<NightsPerMonthDTO>> GetAverageNightsPerMonth(string? neighbourhood, double? reviewScore, double? minPrice, double? maxPrice)
             {
-                Month = $"{r.Year}-{r.Month:00}",
-                AverageNights = (int)Math.Round(r.AverageNights ?? 0.0) // Round to the nearest whole number and convert to int
-            }).ToList();
-        }
+                // Apply filters to the listings
+                var filteredListings = ApplyFilters(neighbourhood, reviewScore, minPrice, maxPrice);
+
+                // Join the filtered listings with the calendar data
+                var result = await _dataContext.DetailedCalendarParijsConverteds
+                    .AsNoTracking() // Disable change tracking for read-only operations
+                    .Join(filteredListings, dc => dc.ListingId, l => l.Id, (dc, l) => dc) // Join on ListingId
+                    .Where(dc => !dc.Available) // Only count booked nights
+                    .GroupBy(dc => new { dc.Date.Year, dc.Date.Month })
+                    .OrderBy(x => x.Key.Year)
+                    .ThenBy(x => x.Key.Month)
+                    .Select(g => new
+                    {
+                        Year = g.Key.Year,
+                        Month = g.Key.Month,
+                        AverageNights = (double?)g.Average(dc => dc.MinimumNights)
+                    })
+                    .ToListAsync();
+
+                return result.Select(r => new NightsPerMonthDTO
+                {
+                    Month = $"{r.Year}-{r.Month:00}",
+                    AverageNights = (int)Math.Round(r.AverageNights ?? 0.0) // Round to the nearest whole number and convert to int
+                }).ToList();
+            }
 
         public async Task<List<MonthRevenueDTO>> GetTotalRevenuePerMonth(string? neighbourhood, double? reviewScore, double? minPrice, double? maxPrice)
         {

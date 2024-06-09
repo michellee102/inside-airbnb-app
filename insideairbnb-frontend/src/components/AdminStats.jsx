@@ -52,6 +52,7 @@ function SortComponent() {
                     .then((data) => {
                         if (data.payload) {
                             console.log(data.payload)
+                            console.log("fetched average nights per month")
                             const monthsArray = data.payload.map((item) => item.month);
                             const averageNightsArray = data.payload.map((item) => item.averageNights);
                             console.log("averageNightsArray", averageNightsArray)
@@ -80,6 +81,7 @@ function SortComponent() {
                 dispatch(fetchTotalRevenue({ filters, accessToken }))
                     .then((data) => {
                         if (data.payload) {
+                            console.log("fetched total revenue per month")
                             const monthsArray = data.payload.map((item) => item.month);
                             const totalRev = data.payload.map((item) => item.totalRevenue);
                             setRevenueData({
@@ -107,7 +109,7 @@ function SortComponent() {
                 dispatch(fetchAverageRating({ filters, accessToken }))
                     .then(({ payload }) => {
                         if (payload) {
-
+                            console.log("fetched average rating")
                             setRatingData({
                                 averageRating: [payload.rating],
                                 loading: false,

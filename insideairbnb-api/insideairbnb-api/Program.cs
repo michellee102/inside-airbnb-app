@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using StackExchange.Profiling.Storage;
 using System.Net;
 using System.Security.Claims;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,13 @@ builder.Services.AddMiniProfiler(options =>
     options.PopupShowTimeWithChildren = true;
     options.Storage = new SqlServerStorage(builder.Configuration.GetConnectionString("MiniProfilerDB"));
 });
+
+
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
+
+
+
 
 // Voeg DI voor services toe
 builder.Services.AddScoped<IListingsService, ListingsServiceImpl>();

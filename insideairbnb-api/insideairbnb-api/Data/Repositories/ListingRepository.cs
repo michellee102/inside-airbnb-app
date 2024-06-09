@@ -2,20 +2,34 @@
 using insideairbnb_api.Helpers;
 using insideairbnb_api.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace insideairbnb_api.Data.Repositories
 {
     public class ListingRepository : IListingRepository
     {
         private readonly InsideAirBnb2024Context _dataContext;
+        private readonly IDatabase _redisDatabase;
 
-        public ListingRepository(InsideAirBnb2024Context dataContext)
+        public ListingRepository(InsideAirBnb2024Context dataContext
+            , IConnectionMultiplexer redisConnection
+            )
         {
             _dataContext = dataContext;
+            _redisDatabase = redisConnection.GetDatabase();
         }
 
         public async Task<List<GeoLocationInfo>> GetAllGeoLocationInfo()
         {
+            //string cacheKey = "AllGeoLocationInfo";
+
+            //string cachedData = await _redisDatabase.StringGetAsync(cacheKey);
+            //if (!string.IsNullOrEmpty(cachedData))
+            //{
+            //    return JsonConvert.DeserializeObject<List<GeoLocationInfo>>(cachedData);
+            //}
+
             List<GeoLocationInfo> listings = await _dataContext.DetailedListingsParijs
                 .Select(l => new GeoLocationInfo
                 {
@@ -25,7 +39,10 @@ namespace insideairbnb_api.Data.Repositories
                 })
                 .AsNoTracking()
                 .ToListAsync();
-            return LongLatHelper.FormatLongLat(listings);
+
+            var formattedListings = LongLatHelper.FormatLongLat(listings);
+            //await _redisDatabase.StringSetAsync(cacheKey, JsonConvert.SerializeObject(formattedListings));
+            return formattedListings;
         }
 
         public async Task<ListingPopupInfo?> GetListingDetails(string listingId)

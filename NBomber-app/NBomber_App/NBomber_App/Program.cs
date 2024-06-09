@@ -11,7 +11,6 @@ public class Program
         var scenario = Scenario.Create("NBomberLoadTester", async context =>
         {
             var response = await httpClient.GetAsync("https://localhost:7049/Listings/geoinfo");
-            //var response = await httpClient.GetAsync("https://localhost:7049/Listings/stats/revenue-per-neighbourhood-per-month?neighbourhood=Bourse");
             return response.IsSuccessStatusCode ? Response.Ok() : Response.Fail();
         })
             .WithoutWarmUp()
